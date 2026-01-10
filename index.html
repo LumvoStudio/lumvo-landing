@@ -33,18 +33,15 @@
       --radius: 16px;
 
       --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
-      --shadow-md: 0 8px 18px rgba(0,0,0,.08);
-      --shadow-lg: 0 14px 30px rgba(0,0,0,.10);
+      --shadow-md: 0 10px 22px rgba(0,0,0,.10);
+      --shadow-lg: 0 18px 44px rgba(0,0,0,.14);
 
-      /* ✅ Ritmo vertical (sem buracos e sem “grude”) */
-      --header-h: 86px; /* ⬅️ cabeçalho mais “presente” */
-      --hero-pad-top: clamp(44px, 5.2vw, 72px);
-      --hero-pad-bottom: clamp(32px, 4vw, 52px);
-      --section-pad: clamp(52px, 6vw, 84px);
+      /* Ritmo */
+      --header-h: 86px;
+      --hero-pad-top: clamp(44px, 5.5vw, 72px);
+      --hero-pad-bottom: clamp(32px, 4.2vw, 52px);
+      --section-pad: clamp(54px, 6.2vw, 86px);
       --gap: 24px;
-
-      /* ✅ “Trim” visual para logo com whitespace (ajusta se precisar) */
-      --logo-clip: inset(8% 10% 10% 8%);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,22 +59,25 @@
     img { display: block; max-width: 100%; }
 
     .container{
-      width: min(88%, var(--max)); /* ⬅️ mais “respiro” nas laterais */
+      width: min(92%, var(--max));
       margin-inline: auto;
     }
 
-    /* Background suave do topo */
     .page{
       position: relative;
       overflow: hidden;
     }
+
+    /* + “SAL” no topo (mais vida, ainda clean) */
     .page::before{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(circle at 18% 8%, rgba(37,99,235,.13), transparent 46%),
-        radial-gradient(circle at 82% 0%, rgba(37,99,235,.10), transparent 40%),
-        linear-gradient(180deg, rgba(232,240,255,.65), rgba(255,255,255,.95) 30%);
+        radial-gradient(circle at 12% 14%, rgba(37,99,235,.18), transparent 44%),
+        radial-gradient(circle at 86% 8%, rgba(30,64,175,.14), transparent 40%),
+        radial-gradient(circle at 70% 42%, rgba(37,99,235,.10), transparent 42%),
+        linear-gradient(180deg, rgba(232,240,255,.78), rgba(255,255,255,.96) 30%),
+        repeating-linear-gradient(135deg, rgba(15,23,42,.02) 0 1px, transparent 1px 10px);
       z-index:0;
       pointer-events:none;
     }
@@ -95,7 +95,7 @@
       z-index: 9999;
     }
 
-    /* Header */
+    /* Header (com “faixa” e preenchendo o vazio) */
     header{
       height: var(--header-h);
       display:flex;
@@ -103,24 +103,19 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.90));
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(229,231,235,.75);
-      transition: box-shadow .25s ease, border-color .25s ease;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(229,231,235,.9);
+      box-shadow: 0 8px 24px rgba(15,23,42,.06);
     }
-    header::after{
-      /* ⬅️ faixa “viva” no cabeçalho (sem virar carnaval) */
+
+    header::before{
       content:"";
       position:absolute;
-      left:0; right:0; bottom:-1px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(37,99,235,.25), transparent);
+      inset:0;
+      background: linear-gradient(90deg, rgba(37,99,235,.10), rgba(37,99,235,.04), transparent 60%);
       pointer-events:none;
-    }
-    header.scrolled{
-      box-shadow: 0 14px 34px rgba(0,0,0,.06);
-      border-bottom-color: var(--border);
+      opacity:.9;
     }
 
     .nav{
@@ -128,27 +123,37 @@
       align-items:center;
       justify-content:space-between;
       gap: 16px;
-      padding-inline: 2px; /* ⬅️ evita sensação de “colado” */
+      width: 100%;
+      position: relative;
+      z-index: 1;
     }
 
-    /* ✅ Logo maior + destacado + clip para reduzir “whitespace” do SVG */
+    /* ✅ LOGO: resolve “minúsculo” mesmo com SVG/PNG com whitespace:
+       - caixa com overflow hidden
+       - escala + leve translate para “cortar” respiro interno do arquivo */
     .logo{
       display:flex;
       align-items:center;
       gap: 12px;
-      min-width: 160px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.75);
-      border: 1px solid rgba(229,231,235,.85);
-      box-shadow: 0 10px 24px rgba(0,0,0,.04);
     }
-    .logo img{
-      height: 64px; /* ⬅️ AUMENTA LOGO */
+    .logo-mark{
+      width: 220px;            /* mais destaque */
+      height: 64px;            /* mais destaque */
+      border-radius: 14px;
+      overflow: hidden;        /* corta whitespace do arquivo */
+      display:flex;
+      align-items:center;
+      padding-left: 6px;
+      background: rgba(255,255,255,.60);
+      border: 1px solid rgba(229,231,235,.9);
+      box-shadow: 0 10px 26px rgba(15,23,42,.06);
+    }
+    .logo-mark img{
+      height: 100%;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 10px 22px rgba(37,99,235,.12));
-      clip-path: var(--logo-clip); /* ⬅️ “corta” whitespace do arquivo */
+      transform: translateX(-6px) scale(1.65);
+      transform-origin: left center;
     }
 
     /* Botões */
@@ -168,7 +173,7 @@
     .btn-primary{
       background: var(--brand);
       color: #fff;
-      box-shadow: 0 16px 34px rgba(37,99,235,.24);
+      box-shadow: 0 14px 26px rgba(37,99,235,.28);
     }
     .btn-primary:hover{ background: var(--brand-dark); transform: translateY(-2px); }
 
@@ -184,16 +189,15 @@
       background: var(--brand-soft);
     }
 
-    /* ⬅️ botão do canto superior direito com “respiro” e menos sensação de colado */
-    header .btn-primary{
-      margin-right: 2px;
+    /* ✅ CTA do header: não “colado” e sem ficar largado */
+    .nav-cta{
+      padding-right: 6px;
     }
 
     /* Tipografia */
     h1,h2,h3{ line-height: 1.12; letter-spacing: -0.02em; color: #0b1220; }
     p{ color: var(--muted); }
 
-    /* ✅ Título + traço alinhado no centro do texto */
     .section-title{
       font-size: clamp(1.65rem, 2.7vw, 2.2rem);
       display:flex;
@@ -216,49 +220,39 @@
       margin-bottom: 28px;
     }
 
-    /* Hero */
+    /* Hero (mais vida sem bagunçar) */
     .hero{
       padding: var(--hero-pad-top) 0 var(--hero-pad-bottom);
       display:grid;
-      gap: 34px;
+      gap: 36px;
       align-items: start;
-      position: relative; /* ⬅️ para blobs */
-    }
-
-    /* ✅ “Vida” no centro: blobs suaves e glow (sem mudar conteúdo) */
-    .hero::before{
-      content:"";
-      position:absolute;
-      width: 520px; height: 520px;
-      left: -160px; top: -120px;
-      background: radial-gradient(circle at 30% 30%, rgba(37,99,235,.18), transparent 60%);
-      filter: blur(6px);
-      opacity: .9;
-      pointer-events:none;
+      position: relative;
     }
     .hero::after{
       content:"";
       position:absolute;
-      width: 560px; height: 560px;
-      right: -220px; top: 40px;
-      background: radial-gradient(circle at 50% 50%, rgba(37,99,235,.14), transparent 62%);
-      filter: blur(8px);
-      opacity: .8;
+      inset: -30px -60px -40px -60px;
+      background:
+        radial-gradient(circle at 28% 30%, rgba(37,99,235,.10), transparent 55%),
+        radial-gradient(circle at 76% 24%, rgba(30,64,175,.08), transparent 52%);
       pointer-events:none;
+      z-index: 0;
+      filter: blur(0px);
     }
+    .hero > *{ position: relative; z-index: 1; }
 
     .tag{
       display:inline-block;
       padding: 8px 14px;
-      background: rgba(239,246,255,.95);
+      background: rgba(239,246,255,.92);
       color: var(--brand);
       font-weight: 900;
       font-size: .82rem;
-      letter-spacing: .08em;
+      letter-spacing: .10em;
       text-transform: uppercase;
-      border-radius: 999px; /* ⬅️ mais premium */
-      border: 1px solid rgba(37,99,235,.10);
-      box-shadow: 0 10px 22px rgba(0,0,0,.03);
+      border-radius: 999px;
+      border: 1px solid rgba(191,219,254,.8);
+      box-shadow: 0 8px 18px rgba(37,99,235,.10);
       margin-bottom: 14px;
     }
     .hero h1{
@@ -279,9 +273,9 @@
 
     .hero-card{
       background: rgba(255,255,255,.95);
-      border: 1px solid rgba(229,231,235,.92);
+      border: 1px solid rgba(229,231,235,.95);
       border-radius: calc(var(--radius) + 2px);
-      box-shadow: 0 18px 44px rgba(0,0,0,.10);
+      box-shadow: var(--shadow-lg);
       padding: 30px;
       position: relative;
       overflow: hidden;
@@ -289,13 +283,11 @@
     .hero-card::before{
       content:"";
       position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(37,99,235,.10), transparent 38%),
-        radial-gradient(circle at 82% 0%, rgba(37,99,235,.08), transparent 42%);
+      inset:-60px -40px auto auto;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(37,99,235,.16), transparent 62%);
       pointer-events:none;
     }
-    .hero-card > *{ position: relative; z-index: 1; }
     .hero-card h3{ font-size: 1.25rem; margin-bottom: 14px; }
 
     .list-check{
@@ -305,22 +297,15 @@
     }
     .list-check li{
       position: relative;
-      padding-left: 30px;
+      padding-left: 28px;
       color: var(--muted);
     }
     .list-check li::before{
       content:"✓";
       position:absolute;
       left:0; top:0;
-      width: 22px; height: 22px;
-      border-radius: 999px;
-      background: rgba(37,99,235,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
       color: var(--brand);
       font-weight: 900;
-      transform: translateY(1px);
     }
 
     /* Seções */
@@ -351,7 +336,10 @@
     .card p{ margin: 0; font-size: 1rem; }
 
     /* “O que não fazemos” */
-    .card-negative ul{ display:grid; gap: 14px; }
+    .card-negative ul{
+      display:grid;
+      gap: 14px;
+    }
     .card-negative li{
       display:flex;
       align-items:flex-start;
@@ -371,29 +359,55 @@
       transform: translateY(2px);
     }
 
-    /* Steps */
-    .step-card{ position: relative; overflow: hidden; }
-    .step-num{
-      font-size: 4.2rem;
-      font-weight: 900;
-      color: #e5e7eb;
-      position:absolute;
-      top: 10px;
-      right: 16px;
-      line-height: 1;
-      pointer-events:none;
+    /* ✅ COMO FUNCIONA: volta para numeração boa (badge), sem número gigante “feio” */
+    .step-card{
+      position: relative;
+      overflow: hidden;
+      padding-top: 30px;
     }
-    .step-content{ position: relative; z-index: 1; }
+    .step-num{
+      position:absolute;
+      top: 18px;
+      left: 18px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      color: #fff;
+      background: var(--brand);
+      box-shadow: 0 10px 20px rgba(37,99,235,.22);
+      line-height: 1;
+    }
+    .step-content{
+      position: relative;
+      z-index: 1;
+      padding-left: 0;
+    }
 
     /* CTA */
     .cta-box{
-      background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+      background: linear-gradient(135deg, rgba(239,246,255,.95) 0%, rgba(255,255,255,.98) 70%);
       border: 1px solid #bfdbfe;
       border-radius: 26px;
-      padding: clamp(28px, 4.6vw, 54px);
+      padding: clamp(30px, 4.8vw, 56px);
       text-align:center;
       box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
     }
+    .cta-box::before{
+      content:"";
+      position:absolute;
+      inset:auto -60px -90px -60px;
+      height: 220px;
+      background: radial-gradient(circle at 50% 40%, rgba(37,99,235,.18), transparent 62%);
+      pointer-events:none;
+    }
+    .cta-box > *{ position: relative; z-index: 1; }
+
     .cta-box h2{
       font-size: clamp(1.55rem, 2.6vw, 2.05rem);
       margin-bottom: 12px;
@@ -433,19 +447,17 @@
     textarea.form-control{ min-height: 120px; resize: vertical; }
     .form-status{ min-height: 20px; font-weight: 700; font-size: .92rem; }
 
-    /* Footer */
+    /* Footer: lado a lado (sem espaço morto) */
     footer{
       background: var(--bg-alt);
       border-top: 1px solid var(--border);
       padding: 54px 0 22px;
       color: var(--muted);
     }
-
-    /* ✅ no final: 3 colunas lado a lado (desktop) */
     .footer-grid{
       display:grid;
       gap: 34px;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* força 3 colunas no desktop */
       margin-bottom: 26px;
       align-items: start;
     }
@@ -457,19 +469,12 @@
       align-items:center;
       gap: 12px;
       margin-bottom: 12px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.72);
-      border: 1px solid rgba(229,231,235,.85);
-      width: fit-content;
-      box-shadow: 0 10px 24px rgba(0,0,0,.04);
     }
-    .footer-logo img{
-      height: 54px; /* ⬅️ logo maior no final */
-      width: auto;
-      object-fit: contain;
-      clip-path: var(--logo-clip);
-      filter: drop-shadow(0 10px 22px rgba(37,99,235,.10));
+
+    /* ✅ Logo do footer com destaque e mesmo “crop” */
+    .footer-logo .logo-mark{
+      width: 220px;
+      height: 64px;
     }
 
     .copy{
@@ -486,19 +491,19 @@
         align-items: center;
       }
     }
-    @media (min-width: 860px){
-      .footer-grid{
-        grid-template-columns: 1.25fr .85fr .85fr; /* ⬅️ lado a lado */
-      }
+
+    @media (max-width: 980px){
+      .footer-grid{ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
     }
+
     @media (max-width: 640px){
-      :root{ --header-h: 82px; }
-      .container{ width: min(92%, var(--max)); }
-      .logo{ padding: 8px 10px; }
-      .logo img{ height: 56px; }
+      :root{ --header-h: 78px; }
+      .logo-mark{ width: 200px; height: 58px; }
+      .logo-mark img{ transform: translateX(-6px) scale(1.55); }
       .hero-actions, .cta-actions{ flex-direction: column; }
       .btn{ width: 100%; }
       .hero-card{ padding: 22px; }
+      .nav-cta{ padding-right: 0; }
     }
   </style>
 </head>
@@ -510,10 +515,14 @@
     <header id="header">
       <div class="container nav">
         <a href="#top" class="logo" aria-label="Lumvo Studio" id="top">
-          <!-- ✅ força PNG primeiro p/ evitar SVG com fundo/whitespace; se não existir, cai no SVG -->
-          <img src="assets/logo-lumvo.png" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.svg'">
+          <span class="logo-mark" aria-hidden="true">
+            <img src="assets/logo-lumvo.svg" alt="" onerror="this.src='assets/logo-lumvo.png'">
+          </span>
         </a>
-        <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
+
+        <div class="nav-cta">
+          <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
+        </div>
       </div>
     </header>
 
@@ -546,7 +555,7 @@
           <h2 class="section-title">Problemas que resolvemos</h2>
           <p class="subtitle">Atuamos diretamente nos gargalos que travam a operação e cansam sua equipe.</p>
 
-          <div class="grid cols-2">
+          <div class="grid cols-3">
             <div class="card">
               <h3>Falta de padrão</h3>
               <p>Respostas desencontradas e retrabalho entre pessoas e turnos diferentes.</p>
@@ -560,6 +569,14 @@
               <p>Trocas de equipe sem processo geram rupturas e inconsistência no atendimento.</p>
             </div>
             <div class="card">
+              <h3>Furos e no-shows</h3>
+              <p>Confirmações sem rotina e falta de lembretes deixam buracos na agenda.</p>
+            </div>
+            <div class="card">
+              <h3>Sem previsibilidade</h3>
+              <p>Sem regras claras de triagem e prioridade, tudo vira urgência e caos.</p>
+            </div>
+            <div class="card">
               <h3>Gestor “bombeiro”</h3>
               <p>Você vira suporte operacional em vez de focar no crescimento do negócio.</p>
             </div>
@@ -569,7 +586,7 @@
 
       <section class="section container" id="o-que-fazemos">
         <h2 class="section-title">O que fazemos</h2>
-        <p class="subtitle">Somos uma extensão operacional da sua equipe, com foco em organização e atendimento eficiente.</p>
+        <p class="subtitle">Estruturamos atendimento e rotina de agenda com processos simples, porém rigorosos, para manter qualidade e continuidade.</p>
 
         <div class="grid cols-3">
           <div class="card">
@@ -577,8 +594,20 @@
             <p>Resposta rápida via WhatsApp/Direct com padrões claros e tom de voz consistente.</p>
           </div>
           <div class="card">
+            <h3>Triagem e direcionamento</h3>
+            <p>Classificação por tipo de demanda e encaminhamento correto sem “ping-pong”.</p>
+          </div>
+          <div class="card">
+            <h3>Confirmação e lembretes</h3>
+            <p>Rotina para confirmação, lembrete e reagendamento para reduzir faltas.</p>
+          </div>
+          <div class="card">
             <h3>Organização de agenda</h3>
-            <p>Fluxos para confirmações, reagendamentos, lista de espera e dúvidas recorrentes.</p>
+            <p>Fluxos para lista de espera, encaixes, reagendamentos e dúvidas recorrentes.</p>
+          </div>
+          <div class="card">
+            <h3>Scripts e padronização</h3>
+            <p>Respostas prontas, objeções e regras do jogo para manter consistência.</p>
           </div>
           <div class="card">
             <h3>Processos documentados</h3>
@@ -697,7 +726,9 @@
       <div class="container footer-grid">
         <div class="footer-col">
           <div class="footer-logo">
-            <img src="assets/logo-lumvo.png" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.svg'">
+            <span class="logo-mark" aria-hidden="true">
+              <img src="assets/logo-lumvo.svg" alt="" onerror="this.src='assets/logo-lumvo.png'">
+            </span>
           </div>
           <p>Apoio operacional e atendimento eficiente para negócios de agenda.</p>
         </div>
@@ -731,25 +762,20 @@
     // Ano
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Header scrolled + progress
-    const header = document.getElementById("header");
+    // Progress
     const progress = document.querySelector(".scroll-progress");
-
     function onScroll(){
       const doc = document.documentElement;
       const scrollTop = doc.scrollTop || document.body.scrollTop;
       const scrollHeight = doc.scrollHeight - doc.clientHeight;
       const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
-
       progress.style.transform = `scaleX(${pct})`;
-      if (scrollTop > 12) header.classList.add("scrolled");
-      else header.classList.remove("scrolled");
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     onScroll();
 
-    // Form -> WhatsApp (robusto contra bloqueio de pop-up)
+    // Form -> WhatsApp
     const form = document.getElementById("lead-form");
     const statusDiv = document.getElementById("form-status");
     const numeroDestino = "5511959401727";
