@@ -21,33 +21,36 @@
     :root {
       /* Paleta de Cores */
       --color-bg: #FFFFFF;
-      --color-bg-alt: #F8FAFC; /* Cinza muito suave para seções alternadas */
+      --color-bg-alt: #F8FAFC; 
       --color-text-main: #1F2937;
       --color-text-muted: #4B5563;
-      --color-brand: #2563EB;      /* Azul principal */
-      --color-brand-dark: #1E40AF; /* Azul escuro para hover */
-      --color-brand-light: #EFF6FF; /* Azul clarinho para fundos */
+      --color-brand: #2563EB;      
+      --color-brand-dark: #1E40AF; 
+      --color-brand-light: #EFF6FF; 
       
-      --border-color: #E5E7EB;
+      --border-color: #E2E8F0;
       
-      /* Espaçamentos e Layout */
-      --max-width: 1120px;
-      --header-height: 80px;
-      --border-radius: 12px;
+      /* Layout & Espaçamentos Refinados */
+      --max-width: 1200px; /* Aumentei um pouco para dar mais ar */
+      --header-height: 90px; /* Header mais alto para comportar logo maior */
+      --border-radius: 16px; /* Bordas mais modernas */
       
-      /* Sombras Suaves */
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08);
+      /* Sombras Premium */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -1px rgba(0,0,0,0.03);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.01);
 
-      /* Espaçamento Vertical (Responsivo) */
-      --section-spacing: clamp(60px, 8vw, 100px); 
+      /* Espaçamento Vertical Inteligente */
+      --section-padding: clamp(60px, 8vh, 100px); 
     }
 
-    /* Reset Básico */
+    /* Reset & Base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    html { scroll-behavior: smooth; }
+    html { 
+      scroll-behavior: smooth; 
+      scroll-padding-top: 100px; /* Pulo do gato: Ao clicar no menu, o título não fica escondido atrás do header */
+    }
 
     body {
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -55,73 +58,84 @@
       color: var(--color-text-main);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a { text-decoration: none; color: inherit; transition: 0.2s ease; }
     ul { list-style: none; }
     img { max-width: 100%; display: block; }
 
-    /* Container Centralizado */
     .container {
-      width: min(90%, var(--max-width)); /* 90% no mobile, trava em 1120px no desktop */
+      width: min(90%, var(--max-width));
       margin-inline: auto;
     }
 
-    /* Scroll Progress Bar (Barra azul no topo) */
+    /* Scroll Progress Bar */
     .scroll-progress {
-      position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
       background: var(--color-brand);
       transform-origin: left; transform: scaleX(0); z-index: 9999;
     }
 
-    /* --- 2. HEADER E NAVEGAÇÃO --- */
+    /* --- 2. HEADER E LOGO (CORRIGIDO) --- */
     header {
       height: var(--header-height);
       display: flex;
       align-items: center;
       position: sticky; top: 0;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
+      /* Mudança: Fundo 100% branco para esconder box da logo se for jpg */
+      background: #FFFFFF; 
       z-index: 100;
       border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
+      transition: all 0.3s ease;
     }
-    header.scrolled { border-bottom-color: var(--border-color); }
+    header.scrolled { 
+      border-bottom-color: var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
 
     .nav-flex {
       display: flex; justify-content: space-between; align-items: center;
+      width: 100%;
     }
 
+    /* LOGO: Aumentada e com ajuste de proporção */
     .logo img {
-      height: 48px; /* Tamanho do logo corrigido */
+      height: 60px; /* Aumentado de 48px para 60px */
       width: auto;
+      object-fit: contain;
+      /* Se a logo tiver fundo branco, isso garante que ela se misture */
+      mix-blend-mode: normal; 
     }
 
     /* Botões */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 12px 24px;
+      padding: 12px 28px;
       border-radius: 50px;
       font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid transparent;
     }
+
+    .btn-sm { padding: 10px 20px; font-size: 0.95rem; }
 
     .btn-primary {
       background-color: var(--color-brand);
       color: white;
-      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
     .btn-primary:hover {
       background-color: var(--color-brand-dark);
       transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.35);
     }
 
     .btn-outline {
       background: transparent;
-      border-color: var(--border-color);
+      border-color: #CBD5E1;
       color: var(--color-text-main);
     }
     .btn-outline:hover {
@@ -130,176 +144,200 @@
       background: var(--color-brand-light);
     }
 
-    /* --- 3. TIPOGRAFIA E TÍTULOS --- */
-    h1, h2, h3 { color: #111; line-height: 1.2; font-weight: 700; }
+    /* --- 3. TIPOGRAFIA --- */
+    h1, h2, h3 { color: #0F172A; line-height: 1.2; font-weight: 700; }
     
-    p { color: var(--color-text-muted); font-size: 1.05rem; margin-bottom: 24px; }
-
-    /* CORREÇÃO DO TRAÇO: Uso de Flexbox para centralização perfeita */
+    /* Títulos com traço CENTRALIZADO CORRETAMENTE */
     .section-title {
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      margin-bottom: 16px;
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      margin-bottom: 20px;
       display: flex;
-      align-items: center; /* Centraliza verticalmente */
-      gap: 16px;
+      align-items: center;
+      gap: 20px;
     }
-
     .section-title::after {
       content: "";
       display: block;
-      height: 4px;       /* Espessura do traço */
-      width: 60px;       /* Comprimento do traço */
+      height: 4px;
+      width: 60px;
       background-color: var(--color-brand);
-      border-radius: 2px;
+      border-radius: 4px;
+      flex-shrink: 0; /* Impede que o traço encolha no mobile */
     }
 
     .subtitle {
-      max-width: 650px;
-      font-size: 1.125rem;
-      margin-bottom: 48px;
+      max-width: 600px;
+      font-size: 1.15rem;
+      color: var(--color-text-muted);
+      margin-bottom: 56px; /* Mais respiro entre subtítulo e cards */
+      line-height: 1.6;
     }
 
-    /* --- 4. HERO SECTION --- */
+    /* --- 4. HERO SECTION (ESPAÇAMENTO CORRIGIDO) --- */
     .hero {
-      padding: 60px 0 80px;
+      /* Min-height garante que ocupe a tela e não fique grudado */
+      min-height: calc(100vh - var(--header-height)); 
       display: grid;
-      gap: 40px;
+      align-items: center; /* Centraliza verticalmente o conteúdo */
+      padding-bottom: 60px; /* Espaço em baixo para não colar na dobra */
     }
     
+    .hero-content {
+      padding-top: 20px; /* Pequeno ajuste */
+    }
+
     .hero-content h1 {
-      font-size: clamp(2.5rem, 5vw, 3.5rem); /* Texto grande e responsivo */
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
+      font-size: clamp(2.8rem, 5.5vw, 4rem);
+      margin-bottom: 28px;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .hero-content p {
+      font-size: 1.15rem;
+      max-width: 500px;
+      margin-bottom: 32px;
+      color: var(--color-text-muted);
     }
     
     .tag {
       display: inline-block;
-      padding: 6px 12px;
+      padding: 8px 16px;
       background: var(--color-brand-light);
       color: var(--color-brand);
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
-      border-radius: 6px;
-      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+      border-radius: 100px;
+      margin-bottom: 24px;
     }
 
     .hero-buttons {
-      display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px;
+      display: flex; gap: 16px; flex-wrap: wrap;
     }
 
-    /* Card Hero (Lado direito no desktop) */
+    /* Card Hero */
     .hero-card {
       background: white;
-      padding: 32px;
+      padding: 40px;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-lg);
       border: 1px solid var(--border-color);
+      position: relative;
     }
-    .hero-card h3 { margin-bottom: 16px; font-size: 1.25rem; }
+    .hero-card h3 { margin-bottom: 24px; font-size: 1.4rem; }
     
-    /* Lista com checkmarks alinhados */
     .list-check li {
       position: relative;
-      padding-left: 30px;
-      margin-bottom: 12px;
+      padding-left: 32px;
+      margin-bottom: 16px;
+      font-size: 1.05rem;
       color: var(--color-text-muted);
     }
+    .list-check li:last-child { margin-bottom: 0; }
+    
     .list-check li::before {
       content: "✓";
-      position: absolute; left: 0; top: 0;
-      color: var(--color-brand);
-      font-weight: 800;
+      position: absolute; left: 0; top: 2px;
+      height: 20px; width: 20px;
+      background: var(--color-brand);
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
     }
 
-    /* --- 5. GRID E SEÇÕES --- */
-    .section { padding: var(--section-spacing) 0; }
+    /* --- 5. SEÇÕES E GRID (Refinados para evitar buracos) --- */
+    .section { padding: var(--section-padding) 0; }
     .bg-alt { background-color: var(--color-bg-alt); }
 
     .grid {
       display: grid;
-      gap: 32px; /* Espaço generoso entre cards */
+      gap: 32px;
     }
-    .cols-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-    .cols-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    /* Grid inteligente que preenche melhor o espaço */
+    .cols-2 { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+    .cols-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
     .card {
       background: white;
       padding: 32px;
       border-radius: var(--border-radius);
       border: 1px solid var(--border-color);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: all 0.3s ease;
+      height: 100%; /* Garante que todos cards tenham mesma altura */
+      display: flex; flex-direction: column;
     }
     .card:hover {
       transform: translateY(-5px);
       box-shadow: var(--shadow-md);
-      border-color: #BFDBFE; /* Azul bem claro */
+      border-color: #93C5FD;
     }
-    .card h3 { margin-bottom: 12px; font-size: 1.3rem; }
-    .card p { margin-bottom: 0; font-size: 1rem; }
-
-    /* Seção "O que NÃO fazemos" - Visual Diferenciado */
-    .card-negative ul { display: flex; flex-direction: column; gap: 14px; }
-    .card-negative li {
-      display: flex; 
-      align-items: flex-start; /* Alinha ícone com a primeira linha */
-      gap: 12px;
+    .card h3 { margin-bottom: 16px; font-size: 1.25rem; }
+    .card p { 
+      margin-bottom: 0; 
+      font-size: 1rem; 
       color: var(--color-text-muted);
     }
-    /* Traço/X ao lado do item */
+
+    /* Card Negativo (O que não fazemos) */
+    .card-negative {
+      border-left: 4px solid #EF4444; /* Detalhe visual sutil */
+    }
+    .card-negative ul { display: flex; flex-direction: column; gap: 16px; }
+    .card-negative li {
+      display: flex; align-items: flex-start; gap: 16px;
+      color: var(--color-text-muted);
+    }
     .icon-no {
-      min-width: 20px; height: 20px;
+      min-width: 24px; height: 24px;
+      background: #FEF2F2;
+      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      color: #EF4444; /* Vermelho suave */
-      font-weight: bold;
+      color: #EF4444; font-weight: bold; font-size: 0.9rem;
+      margin-top: 2px; /* Alinhamento ótico com a linha do texto */
     }
 
-    /* Steps (Como Funciona) */
-    .step-card { position: relative; padding-top: 20px; }
+    /* Steps */
+    .step-card { 
+      padding-top: 30px; 
+      border: none; background: transparent; 
+      box-shadow: none; 
+      padding-left: 0; padding-right: 0;
+    }
+    .step-card:hover { transform: none; box-shadow: none; }
+    
     .step-num {
-      font-size: 4rem; font-weight: 900;
+      font-size: 3.5rem; font-weight: 800;
       color: #E2E8F0;
-      position: absolute; top: 10px; right: 20px;
-      line-height: 1; z-index: 0;
+      line-height: 1; margin-bottom: 10px;
     }
-    .step-content { position: relative; z-index: 1; }
 
-    /* --- 6. CTA / TAGLINE --- */
+    /* --- 6. CTA BOX --- */
     .cta-box {
       background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
-      border: 1px solid #BFDBFE;
+      border: 1px solid #DBEAFE;
       border-radius: 24px;
-      padding: 50px 30px;
-      text-align: center; /* Centraliza tudo */
+      padding: 60px 40px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
     }
-    .cta-box h2 { 
-      justify-content: center; /* Centraliza o título flex */
-      margin-bottom: 16px;
-    }
-    /* Remove o traço lateral padrão no CTA centralizado para ficar mais limpo */
+    .cta-box h2 { justify-content: center; margin-bottom: 20px; }
     .cta-box h2::after { display: none; }
-    
-    .cta-box p { margin-inline: auto; max-width: 600px; }
-    
-    .cta-actions {
-      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 32px;
-    }
+    .cta-actions { margin-top: 40px; }
 
-    /* --- 7. FORMULÁRIO DE CONTATO --- */
-    .form-grid {
-      display: grid; gap: 16px;
-    }
-    .form-group label {
-      display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;
-    }
+    /* --- 7. FORMULÁRIO --- */
+    .form-grid { display: grid; gap: 20px; }
+    
     .form-control {
       width: 100%;
-      padding: 14px 16px; /* Área de toque confortável */
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
       font-family: inherit; font-size: 1rem;
-      background: #F9FAFB;
-      transition: 0.2s;
+      background: #F8FAFC;
+      transition: 0.3s;
     }
     .form-control:focus {
       outline: none;
@@ -307,44 +345,50 @@
       background: white;
       box-shadow: 0 0 0 4px var(--color-brand-light);
     }
-    textarea.form-control { min-height: 120px; resize: vertical; }
-
-    .form-status {
-      margin-top: 10px; font-size: 0.9rem; font-weight: 600; min-height: 20px;
-    }
 
     /* --- 8. FOOTER --- */
     footer {
-      background: var(--color-bg-alt);
-      border-top: 1px solid var(--border-color);
-      padding: 60px 0 20px;
+      background: #F1F5F9;
+      padding: 80px 0 30px;
       color: var(--color-text-muted);
-      font-size: 0.95rem;
+      border-top: 1px solid var(--border-color);
     }
-    .footer-grid {
-      display: grid; gap: 40px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      margin-bottom: 40px;
-    }
-    .footer-col h4 { color: #111; margin-bottom: 16px; }
-    .footer-col a:hover { color: var(--color-brand); text-decoration: underline; }
+    .footer-col h4 { color: #0F172A; margin-bottom: 20px; font-size: 1.1rem; }
+    .footer-col ul li { margin-bottom: 10px; }
     
-    .copy {
-      text-align: center; padding-top: 20px;
-      border-top: 1px solid #E5E7EB; font-size: 0.85rem;
+    /* Correção Logo Footer */
+    .footer-logo {
+      height: 40px; 
+      width: auto; 
+      margin-bottom: 20px;
+      opacity: 0.9;
+      mix-blend-mode: multiply; /* Tenta integrar melhor ao fundo cinza */
     }
 
-    /* --- 9. MEDIA QUERIES (Responsividade Fina) --- */
+    .copy { margin-top: 60px; color: #94A3B8; }
+
+    /* --- 9. RESPONSIVIDADE (FINE TUNING) --- */
     @media (min-width: 900px) {
       .hero {
-        grid-template-columns: 1.2fr 0.8fr; /* Coluna texto maior */
-        align-items: center;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 60px;
       }
+      .form-grid {
+        grid-template-columns: 1fr 1fr; /* Nome e Empresa lado a lado no desktop */
+      }
+      .form-grid .full-width { grid-column: span 2; }
     }
     
     @media (max-width: 600px) {
-      .hero-buttons, .cta-actions { flex-direction: column; width: 100%; }
+      /* Ajuste fino para mobile */
+      .hero { padding-top: 40px; display: flex; flex-direction: column; text-align: left; }
+      .hero-buttons { width: 100%; }
       .btn { width: 100%; }
+      .section-title::after { width: 40px; }
+      
+      /* Espaçamento interno dos cards menor no mobile */
+      .card { padding: 24px; }
+      .cta-box { padding: 40px 24px; }
     }
   </style>
 </head>
@@ -519,35 +563,41 @@
                   <input type="text" id="empresa" name="empresa" class="form-control" placeholder="Ex: Clínica Saúde" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group full-width">
                   <label for="whatsapp">WhatsApp com DDD</label>
                   <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="(11) 99999-9999" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group full-width">
                   <label for="mensagem">Mensagem</label>
-                  <textarea id="mensagem" name="mensagem" class="form-control" placeholder="Conte um pouco sobre sua operação atual..." required></textarea>
+                  <textarea id="mensagem" name="mensagem" class="form-control" style="min-height: 120px" placeholder="Conte um pouco sobre sua operação atual..." required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%">Enviar Contato</button>
-                <div id="form-status" class="form-status"></div>
+                <div class="full-width">
+                  <button type="submit" class="btn btn-primary" style="width: 100%">Enviar Contato</button>
+                  <div id="form-status" class="form-status"></div>
+                </div>
               </div>
             </form>
           </div>
 
           <div style="display: flex; flex-direction: column; justify-content: center;">
-            <div class="card">
-              <h3>Prefere falar agora?</h3>
-              <p style="margin-bottom: 20px;">Nossa equipe está disponível no WhatsApp para tirar dúvidas rápidas.</p>
+            <div class="card" style="background: transparent; border: none; box-shadow: none;">
+              <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Prefere falar agora?</h3>
+              <p style="margin-bottom: 30px;">Nossa equipe está disponível no WhatsApp para tirar dúvidas rápidas.</p>
               
-              <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 1.05rem;">
-                <li style="display: flex; align-items: center; gap: 10px;">
-                  <span style="color: var(--color-brand); font-weight: bold;">WhatsApp:</span>
-                  <a href="https://wa.me/5511959401727" style="text-decoration: underline;">(11) 95940-1727</a>
+              <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 1.1rem;">
+                <li style="display: flex; align-items: center; gap: 12px;">
+                  <span style="display:flex; align-items:center; justify-content:center; width: 40px; height: 40px; background: #DCFCE7; color: #16A34A; border-radius: 50%;">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  </span>
+                  <a href="https://wa.me/5511959401727" style="font-weight: 600;">(11) 95940-1727</a>
                 </li>
-                <li style="display: flex; align-items: center; gap: 10px;">
-                  <span style="color: var(--color-brand); font-weight: bold;">E-mail:</span>
-                  <a href="mailto:contato@lumvostudio.com.br" style="text-decoration: underline;">contato@lumvostudio.com.br</a>
+                <li style="display: flex; align-items: center; gap: 12px;">
+                  <span style="display:flex; align-items:center; justify-content:center; width: 40px; height: 40px; background: #DBEAFE; color: var(--color-brand); border-radius: 50%;">
+                    ✉
+                  </span>
+                  <a href="mailto:contato@lumvostudio.com.br">contato@lumvostudio.com.br</a>
                 </li>
               </ul>
             </div>
@@ -560,7 +610,7 @@
   <footer>
     <div class="container footer-grid">
       <div class="footer-col">
-        <img src="assets/logo-lumvo.svg" alt="Lumvo" style="height: 32px; margin-bottom: 16px;" onerror="this.src='assets/logo-lumvo.png'">
+        <img src="assets/logo-lumvo.svg" alt="Lumvo" class="footer-logo" onerror="this.src='assets/logo-lumvo.png'">
         <p>Apoio operacional e atendimento eficiente para negócios de agenda.</p>
       </div>
 
@@ -591,16 +641,17 @@
     // 1. Atualizar Ano no Footer
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // 2. Barra de Progresso no Scroll
+    // 2. Barra de Progresso no Scroll & Shadow Header
     window.addEventListener("scroll", () => {
       const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrollAtual = document.documentElement.scrollTop;
       const progresso = (scrollAtual / scrollTotal);
-      document.querySelector(".scroll-progress").style.transform = `scaleX(${progresso})`;
+      
+      const progressBar = document.querySelector(".scroll-progress");
+      if(progressBar) progressBar.style.transform = `scaleX(${progresso})`;
 
-      // Header Sombra ao rolar
       const header = document.getElementById("header");
-      if(scrollAtual > 50) header.classList.add("scrolled");
+      if(scrollAtual > 20) header.classList.add("scrolled");
       else header.classList.remove("scrolled");
     });
 
@@ -608,38 +659,35 @@
     const form = document.getElementById("lead-form");
     const statusDiv = document.getElementById("form-status");
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault(); // Impede recarregamento da página
+    if(form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault(); 
 
-      // Coleta dados
-      const nome = document.getElementById("nome").value;
-      const empresa = document.getElementById("empresa").value;
-      const whatsapp = document.getElementById("whatsapp").value;
-      const mensagem = document.getElementById("mensagem").value;
-      
-      // Validação básica
-      if(!nome || !empresa || !whatsapp || !mensagem) {
-        statusDiv.style.color = "red";
-        statusDiv.textContent = "Por favor, preencha todos os campos.";
-        return;
-      }
+        const nome = document.getElementById("nome").value;
+        const empresa = document.getElementById("empresa").value;
+        const whatsapp = document.getElementById("whatsapp").value;
+        const mensagem = document.getElementById("mensagem").value;
+        
+        if(!nome || !empresa || !whatsapp || !mensagem) {
+          statusDiv.style.color = "#EF4444";
+          statusDiv.textContent = "Por favor, preencha todos os campos.";
+          return;
+        }
 
-      // Feedback visual
-      statusDiv.style.color = "var(--color-brand)";
-      statusDiv.textContent = "Preparando mensagem no WhatsApp...";
+        statusDiv.style.color = "var(--color-brand)";
+        statusDiv.textContent = "Abrindo WhatsApp...";
 
-      // Monta texto e Link
-      const textoFinal = `*Novo Contato via Site*\n\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*WhatsApp:* ${whatsapp}\n*Mensagem:* ${mensagem}`;
-      const numeroDestino = "5511959401727"; // Seu número
-      const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
+        const textoFinal = `*Novo Contato via Site*\n\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*WhatsApp:* ${whatsapp}\n*Mensagem:* ${mensagem}`;
+        const numeroDestino = "5511959401727";
+        const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
 
-      // Abre em nova aba
-      setTimeout(() => {
-        window.open(url, "_blank");
-        form.reset(); // Limpa o formulário
-        statusDiv.textContent = "Mensagem aberta! Verifique seu WhatsApp.";
-      }, 1000);
-    });
+        setTimeout(() => {
+          window.open(url, "_blank");
+          form.reset();
+          statusDiv.textContent = "";
+        }, 800);
+      });
+    }
   </script>
 
 </body>
