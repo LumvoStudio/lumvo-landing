@@ -216,11 +216,11 @@ header.scrolled{
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
+  padding: 0;
   border-radius: 12px;
   /* Removido o fundo branco sólido para um vidro sutil */
-  background: rgba(255, 255, 255, 0.05); 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: none;
+  border: none;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: all var(--dur) var(--ease);
@@ -231,11 +231,11 @@ header.scrolled{
   transform: translateY(-1px);
 }
 .logo img{
-  height: 64px;
+  height: 100px;
   width:auto;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 0px 8px rgba(37,99,235,.3));
+  ;background: transparent;
 }
 
 /* Buttons: luxo digital */
@@ -617,7 +617,7 @@ footer{
 }
 
 .footer-logo img{
-  height: 45px;
+  height: 64px;
   width: auto;
   object-fit: contain;
   /* Removido o borrão roxo/azul e mantido a nitidez */
@@ -872,7 +872,7 @@ footer{
       <div class="container footer-grid">
         <div class="footer-col">
           <div class="footer-logo" aria-label="Lumvo Studio">
-            <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+            <img src="assets/logo-lumvo.png" alt="Lumvo Studio"">
           </div>
           <p style="margin-top:10px;">Apoio operacional e atendimento eficiente para negócios de agenda.</p>
         </div>
