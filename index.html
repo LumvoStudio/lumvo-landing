@@ -33,19 +33,17 @@
       --radius: 16px;
 
       --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
-      --shadow-md: 0 8px 18px rgba(0,0,0,.08);
-      --shadow-lg: 0 14px 30px rgba(0,0,0,.10);
+      --shadow-md: 0 10px 24px rgba(0,0,0,.10);
 
-      --header-h: 88px;
-      --hero-pad-top: clamp(44px, 5vw, 72px);
-      --hero-pad-bottom: clamp(30px, 4vw, 52px);
+      --header-h: 92px;
+      --hero-pad-top: clamp(46px, 5.2vw, 76px);
+      --hero-pad-bottom: clamp(34px, 4vw, 56px);
       --section-pad: clamp(52px, 6vw, 84px);
 
-      /* Ajuste fino do preenchimento visual do SVG (whitespace) */
-      --logo-scale: 1.42;
-      --logo-x: 0px;
-      --logo-y: 0px;
-      --logo-clip: inset(18% 22% 22% 18%);
+      /* Ajuste fino do logo (SEM cortar letras) */
+      --logo-scale: 1.25;  /* aumente se o SVG tiver muito whitespace (ex: 1.35) */
+      --logo-tx: 0px;      /* ajuste horizontal (ex: -6px / 6px) */
+      --logo-ty: 0px;      /* ajuste vertical (ex: -2px / 2px) */
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,7 +56,6 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
@@ -67,7 +64,7 @@
       margin-inline: auto;
     }
 
-    /* Background suave do topo */
+    /* Fundo topo */
     .page{
       position: relative;
       overflow: hidden;
@@ -85,7 +82,7 @@
     }
     .page > *{ position: relative; z-index: 1; }
 
-    /* Barra de progresso */
+    /* Barra progresso */
     .scroll-progress{
       position: fixed;
       top: 0; left: 0;
@@ -128,30 +125,40 @@
       align-items:center;
       justify-content:space-between;
       gap: 18px;
-      padding-inline: 10px; /* traz o conteúdo pra dentro sem colar nas bordas */
+      padding-inline: 10px; /* traz tudo “pra dentro” sem exagero */
     }
 
-    /* LOGO (simples + premium, sem “caixa gigante”) */
+    /* Logo: grande, centralizado no próprio box, sem cortar letras */
     .logo{
       display:flex;
       align-items:center;
       gap: 12px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.70);
-      border: 1px solid rgba(229,231,235,.85);
-      box-shadow: 0 10px 24px rgba(0,0,0,.04);
     }
-    .logo img{
-      height: 60px; /* maior de verdade */
+    .logo-mark{
+      width: 260px;
+      height: 64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden; /* corta só o whitespace externo, não as letras */
+      border-radius: 16px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(229,231,235,.85);
+      box-shadow: 0 14px 30px rgba(0,0,0,.06);
+    }
+    .logo-mark img{
+      height: 72px;
       width: auto;
       object-fit: contain;
-
-      clip-path: var(--logo-clip);
-      transform: translate(var(--logo-x), var(--logo-y)) scale(var(--logo-scale));
+      transform: translate(var(--logo-tx), var(--logo-ty)) scale(var(--logo-scale));
       transform-origin: center;
-
-      filter: drop-shadow(0 14px 30px rgba(37,99,235,.16));
+      filter: drop-shadow(0 14px 26px rgba(37,99,235,.16));
+    }
+    .sr-only{
+      position:absolute;
+      left:-9999px;
+      width:1px;height:1px;
+      overflow:hidden;
     }
 
     /* Botões */
@@ -160,7 +167,7 @@
       align-items:center;
       justify-content:center;
       gap: 10px;
-      padding: 12px 22px;
+      padding: 12px 24px;
       border-radius: 999px;
       font-weight: 900;
       border: 1px solid transparent;
@@ -171,21 +178,9 @@
     .btn-primary{
       background: var(--brand);
       color: #fff;
-      box-shadow: 0 18px 40px rgba(37,99,235,.24);
+      box-shadow: 0 18px 40px rgba(37,99,235,.26);
     }
     .btn-primary:hover{ background: var(--brand-dark); transform: translateY(-2px); }
-
-    .btn-outline{
-      background: rgba(255,255,255,.94);
-      border-color: var(--border);
-      color: var(--text);
-      box-shadow: 0 10px 20px rgba(0,0,0,.04);
-    }
-    .btn-outline:hover{
-      border-color: var(--brand);
-      color: var(--brand);
-      background: var(--brand-soft);
-    }
 
     /* Tipografia */
     h1,h2,h3{ line-height: 1.12; letter-spacing: -0.02em; color: #0b1220; }
@@ -256,7 +251,6 @@
       box-shadow: 0 12px 24px rgba(0,0,0,.04);
       margin-bottom: 14px;
     }
-
     .hero h1{
       font-size: clamp(2.35rem, 4.4vw, 3.35rem);
       margin-bottom: 16px;
@@ -264,13 +258,7 @@
     .hero p{
       font-size: 1.12rem;
       max-width: 64ch;
-      margin-bottom: 18px;
-    }
-    .hero-actions{
-      display:flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 6px;
+      margin-bottom: 0; /* ✅ sem botões abaixo */
     }
 
     .hero-card{
@@ -323,10 +311,7 @@
     .section{ padding: var(--section-pad) 0; }
     .bg-alt{ background: var(--bg-alt); }
 
-    .grid{
-      display:grid;
-      gap: 22px;
-    }
+    .grid{ display:grid; gap: 22px; }
     .cols-2{ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
     .cols-3{ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
@@ -346,7 +331,7 @@
     .card h3{ font-size: 1.22rem; margin-bottom: 10px; }
     .card p{ margin: 0; font-size: 1rem; }
 
-    /* “O que não fazemos” */
+    /* Não fazemos */
     .card-negative ul{ display:grid; gap: 14px; }
     .card-negative li{
       display:flex;
@@ -367,31 +352,29 @@
       transform: translateY(2px);
     }
 
-    /* Como funciona (badge sem sobreposição) */
+    /* Como funciona: numeração SEM bug e SEM sobrepor */
     .step-card{
       position: relative;
       overflow: hidden;
-      padding: 26px;
-      padding-top: 54px; /* espaço do badge */
+      padding: 28px;
+      padding-top: 58px; /* espaço pro badge */
     }
     .step-badge{
       position: absolute;
       top: 18px;
       left: 18px;
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 999px;
       display:flex;
       align-items:center;
       justify-content:center;
-
       background: var(--brand);
       color: #fff;
       font-weight: 900;
       line-height: 1;
-      box-shadow: 0 14px 28px rgba(37,99,235,.26);
+      box-shadow: 0 14px 28px rgba(37,99,235,.28);
     }
-    .step-content{ position: relative; z-index: 1; }
 
     /* CTA */
     .cta-box{
@@ -458,15 +441,12 @@
     .footer-col h4{ color: #0b1220; margin-bottom: 12px; }
     .footer-col a:hover{ color: var(--brand); text-decoration: underline; }
 
-    /* SOMENTE o logo no footer (sem caixa) */
+    /* ✅ Footer: logo puro, sem caixa */
     .footer-logo img{
-      height: 54px;
+      height: 44px;
       width: auto;
       object-fit: contain;
-      clip-path: var(--logo-clip);
-      transform: translate(var(--logo-x), var(--logo-y)) scale(var(--logo-scale));
-      transform-origin: center;
-      filter: drop-shadow(0 12px 24px rgba(37,99,235,.12));
+      filter: drop-shadow(0 10px 18px rgba(37,99,235,.10));
     }
 
     .copy{
@@ -489,15 +469,12 @@
       }
     }
     @media (max-width: 640px){
-      :root{ --header-h: 84px; }
-      .container{ width: min(92%, var(--max)); }
-
-      .logo{ padding: 8px 10px; }
-      .logo img{ height: 54px; }
-
-      .hero-actions, .cta-actions{ flex-direction: column; }
-      .btn{ width: 100%; }
-      .hero-card{ padding: 22px; }
+      :root{ --header-h: 86px; }
+      .container{ width: min(94%, var(--max)); }
+      .nav{ padding-inline: 6px; }
+      .logo-mark{ width: 210px; height: 58px; }
+      .logo-mark img{ height: 66px; }
+      .btn{ width: auto; }
     }
   </style>
 </head>
@@ -509,23 +486,26 @@
     <header id="header">
       <div class="container nav">
         <a href="#top" class="logo" aria-label="Lumvo Studio" id="top">
-          <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+          <div class="logo-mark" aria-hidden="true">
+            <!-- tenta PNG primeiro, cai no SVG se não existir -->
+            <img src="assets/logo-lumvo.png" alt="" onerror="this.src='assets/logo-lumvo.svg'">
+          </div>
+          <span class="sr-only">Lumvo Studio</span>
         </a>
+
+        <!-- Mantive só o CTA do header (limpo e direto) -->
         <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
       </div>
     </header>
 
     <main>
+      <!-- HERO (SEM botões / SEM pills) -->
       <section class="hero container" aria-label="Seção principal">
         <div class="hero-content">
           <span class="tag">Atendimento Operacional</span>
           <h1>Apoio operacional para negócios de agenda.</h1>
           <p>Organizamos processos, padronizamos o atendimento e garantimos tranquilidade operacional para clínicas e consultórios com alto volume de mensagens.</p>
-
-          <div class="hero-actions">
-            <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
-            <a href="#como-funciona" class="btn btn-outline">Como funciona</a>
-          </div>
+        </div>
 
         <div class="hero-card">
           <h3>Para quem é?</h3>
@@ -562,7 +542,7 @@
             </div>
             <div class="card">
               <h3>Falta de visibilidade</h3>
-              <p>Sem números e rotinas, você não sabe o que trava: tempo de resposta, fila e conversão.</p>
+              <p>Sem números e rotinas, você não enxerga travas: tempo de resposta, fila e perdas.</p>
             </div>
             <div class="card">
               <h3>Gestor “bombeiro”</h3>
@@ -626,26 +606,18 @@
         <div class="grid cols-3">
           <div class="card step-card">
             <div class="step-badge">1</div>
-            <div class="step-content">
-              <h3>Diagnóstico</h3>
-              <p>Mapeamos fluxo, volume de mensagens e prioridades operacionais.</p>
-            </div>
+            <h3>Diagnóstico</h3>
+            <p>Mapeamos fluxo, volume de mensagens e prioridades operacionais.</p>
           </div>
-
           <div class="card step-card">
             <div class="step-badge">2</div>
-            <div class="step-content">
-              <h3>Implementação</h3>
-              <p>Definimos padrões, scripts, acessos e rotina de atendimento.</p>
-            </div>
+            <h3>Implementação</h3>
+            <p>Definimos padrões, scripts, acessos e rotina de atendimento.</p>
           </div>
-
           <div class="card step-card">
             <div class="step-badge">3</div>
-            <div class="step-content">
-              <h3>Operação contínua</h3>
-              <p>Executamos e ajustamos com acompanhamento próximo do gestor.</p>
-            </div>
+            <h3>Operação contínua</h3>
+            <p>Executamos e ajustamos com acompanhamento próximo do gestor.</p>
           </div>
         </div>
       </section>
@@ -662,7 +634,6 @@
               </svg>
               WhatsApp Direto
             </a>
-            <a href="#contato" class="btn btn-outline">Preencher formulário</a>
           </div>
         </div>
       </section>
@@ -715,10 +686,10 @@
     <footer>
       <div class="container footer-grid">
         <div class="footer-col">
-          <div class="footer-logo">
-            <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+          <div class="footer-logo" aria-label="Lumvo Studio">
+            <img src="assets/logo-lumvo.png" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.svg'">
           </div>
-          <p style="margin-top:10px;">Apoio operacional e atendimento eficiente para negócios de agenda.</p>
+          <p>Apoio operacional e atendimento eficiente para negócios de agenda.</p>
         </div>
 
         <div class="footer-col">
@@ -747,7 +718,6 @@
   </div>
 
   <script>
-    // Ano
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // Header scrolled + progress
