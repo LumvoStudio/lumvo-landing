@@ -3,692 +3,716 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
+
   <title>Lumvo Studio | Apoio operacional para negócios de agenda</title>
   <meta name="description" content="Apoio operacional e atendimento de mensagens para clínicas e negócios de agenda. Organização, padronização e tranquilidade operacional." />
-  
+
   <meta property="og:title" content="Lumvo Studio | Apoio Operacional" />
   <meta property="og:description" content="Organização e atendimento de mensagens para clínicas e consultórios." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lumvostudio.com.br/" />
   <meta property="og:image" content="assets/og.png" />
-  
+
   <link rel="icon" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
   <style>
-    /* --- 1. VARIÁVEIS E CONFIGURAÇÕES GERAIS --- */
-    :root {
-      /* Paleta de Cores */
-      --color-bg: #FFFFFF;
-      --color-bg-alt: #F8FAFC; 
-      --color-text-main: #1F2937;
-      --color-text-muted: #4B5563;
-      --color-brand: #2563EB;      
-      --color-brand-dark: #1E40AF; 
-      --color-brand-light: #EFF6FF; 
-      
-      --border-color: #E2E8F0;
-      
-      /* Layout & Espaçamentos Refinados */
-      --max-width: 1200px; /* Aumentei um pouco para dar mais ar */
-      --header-height: 90px; /* Header mais alto para comportar logo maior */
-      --border-radius: 16px; /* Bordas mais modernas */
-      
-      /* Sombras Premium */
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -1px rgba(0,0,0,0.03);
-      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.01);
+    :root{
+      --bg: #ffffff;
+      --bg-alt: #f8fafc;
+      --text: #111827;
+      --muted: #4b5563;
 
-      /* Espaçamento Vertical Inteligente */
-      --section-padding: clamp(60px, 8vh, 100px); 
+      --brand: #2563eb;
+      --brand-dark: #1e40af;
+      --brand-soft: #eff6ff;
+
+      --border: #e5e7eb;
+
+      --max: 1120px;
+      --radius: 16px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+      --shadow-md: 0 8px 18px rgba(0,0,0,.08);
+      --shadow-lg: 0 14px 30px rgba(0,0,0,.10);
+
+      /* ✅ Ritmo vertical (sem buracos e sem “grude”) */
+      --header-h: 78px;
+      --hero-pad-top: clamp(40px, 5.2vw, 64px);
+      --hero-pad-bottom: clamp(28px, 4vw, 44px);
+      --section-pad: clamp(52px, 6vw, 84px);  /* antes estava grande demais */
+      --gap: 24px;
     }
 
-    /* Reset & Base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html { 
-      scroll-behavior: smooth; 
-      scroll-padding-top: 100px; /* Pulo do gato: Ao clicar no menu, o título não fica escondido atrás do header */
-    }
-
+    html { scroll-behavior: smooth; }
     body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background-color: var(--color-bg);
-      color: var(--color-text-main);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    a { text-decoration: none; color: inherit; transition: 0.2s ease; }
-    ul { list-style: none; }
-    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
 
-    .container {
-      width: min(90%, var(--max-width));
+    .container{
+      width: min(92%, var(--max));
       margin-inline: auto;
     }
 
-    /* Scroll Progress Bar */
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
-      background: var(--color-brand);
-      transform-origin: left; transform: scaleX(0); z-index: 9999;
+    /* Background suave do topo */
+    .page{
+      position: relative;
+      overflow: hidden;
+    }
+    .page::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(37,99,235,.13), transparent 46%),
+        radial-gradient(circle at 82% 0%, rgba(37,99,235,.10), transparent 40%),
+        linear-gradient(180deg, rgba(232,240,255,.65), rgba(255,255,255,.95) 30%);
+      z-index:0;
+      pointer-events:none;
+    }
+    .page > *{ position: relative; z-index: 1; }
+
+    /* Barra de progresso */
+    .scroll-progress{
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--brand);
+      transform-origin: left;
+      transform: scaleX(0);
+      z-index: 9999;
     }
 
-    /* --- 2. HEADER E LOGO (CORRIGIDO) --- */
-    header {
-      height: var(--header-height);
-      display: flex;
-      align-items: center;
-      position: sticky; top: 0;
-      /* Mudança: Fundo 100% branco para esconder box da logo se for jpg */
-      background: #FFFFFF; 
-      z-index: 100;
+    /* Header */
+    header{
+      height: var(--header-h);
+      display:flex;
+      align-items:center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid transparent;
-      transition: all 0.3s ease;
+      transition: border-color .25s ease, box-shadow .25s ease;
     }
-    header.scrolled { 
-      border-bottom-color: var(--border-color);
+    header.scrolled{
+      border-bottom-color: var(--border);
       box-shadow: var(--shadow-sm);
     }
 
-    .nav-flex {
-      display: flex; justify-content: space-between; align-items: center;
-      width: 100%;
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
     }
 
-    /* LOGO: Aumentada e com ajuste de proporção */
-    .logo img {
-      height: 60px; /* Aumentado de 48px para 60px */
+    /* ✅ Logo com destaque (mas depende do arquivo estar “trimado”) */
+    .logo{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 140px;
+    }
+    .logo img{
+      height: 56px;             /* destaque real */
       width: auto;
       object-fit: contain;
-      /* Se a logo tiver fundo branco, isso garante que ela se misture */
-      mix-blend-mode: normal; 
+      image-rendering: auto;
     }
 
     /* Botões */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 12px 28px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid transparent;
-    }
-
-    .btn-sm { padding: 10px 20px; font-size: 0.95rem; }
-
-    .btn-primary {
-      background-color: var(--color-brand);
-      color: white;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    }
-    .btn-primary:hover {
-      background-color: var(--color-brand-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.35);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border-color: #CBD5E1;
-      color: var(--color-text-main);
-    }
-    .btn-outline:hover {
-      border-color: var(--color-brand);
-      color: var(--color-brand);
-      background: var(--color-brand-light);
-    }
-
-    /* --- 3. TIPOGRAFIA --- */
-    h1, h2, h3 { color: #0F172A; line-height: 1.2; font-weight: 700; }
-    
-    /* Títulos com traço CENTRALIZADO CORRETAMENTE */
-    .section-title {
-      font-size: clamp(2rem, 4vw, 2.5rem);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .section-title::after {
-      content: "";
-      display: block;
-      height: 4px;
-      width: 60px;
-      background-color: var(--color-brand);
-      border-radius: 4px;
-      flex-shrink: 0; /* Impede que o traço encolha no mobile */
-    }
-
-    .subtitle {
-      max-width: 600px;
-      font-size: 1.15rem;
-      color: var(--color-text-muted);
-      margin-bottom: 56px; /* Mais respiro entre subtítulo e cards */
-      line-height: 1.6;
-    }
-
-    /* --- 4. HERO SECTION (ESPAÇAMENTO CORRIGIDO) --- */
-    .hero {
-      /* Min-height garante que ocupe a tela e não fique grudado */
-      min-height: calc(100vh - var(--header-height)); 
-      display: grid;
-      align-items: center; /* Centraliza verticalmente o conteúdo */
-      padding-bottom: 60px; /* Espaço em baixo para não colar na dobra */
-    }
-    
-    .hero-content {
-      padding-top: 20px; /* Pequeno ajuste */
-    }
-
-    .hero-content h1 {
-      font-size: clamp(2.8rem, 5.5vw, 4rem);
-      margin-bottom: 28px;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-    }
-
-    .hero-content p {
-      font-size: 1.15rem;
-      max-width: 500px;
-      margin-bottom: 32px;
-      color: var(--color-text-muted);
-    }
-    
-    .tag {
-      display: inline-block;
-      padding: 8px 16px;
-      background: var(--color-brand-light);
-      color: var(--color-brand);
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: 999px;
       font-weight: 700;
-      font-size: 0.8rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+      white-space: nowrap;
+    }
+    .btn-primary{
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(37,99,235,.22);
+    }
+    .btn-primary:hover{ background: var(--brand-dark); transform: translateY(-2px); }
+
+    .btn-outline{
+      background: rgba(255,255,255,.92);
+      border-color: var(--border);
+      color: var(--text);
+      box-shadow: 0 10px 20px rgba(0,0,0,.03);
+    }
+    .btn-outline:hover{
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-soft);
+    }
+
+    /* Tipografia */
+    h1,h2,h3{ line-height: 1.12; letter-spacing: -0.02em; color: #0b1220; }
+    p{ color: var(--muted); }
+
+    /* ✅ Título + traço alinhado no centro do texto */
+    .section-title{
+      font-size: clamp(1.65rem, 2.7vw, 2.2rem);
+      display:flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .section-title::after{
+      content:"";
+      height: 4px;
+      width: 62px;
+      background: var(--brand);
+      border-radius: 99px;
+      transform: translateY(0.08em);
+      flex: 0 0 auto;
+    }
+    .subtitle{
+      max-width: 72ch;
+      font-size: 1.08rem;
+      margin-bottom: 28px;  /* ✅ menos “buraco” que antes */
+    }
+
+    /* Hero */
+    .hero{
+      padding: var(--hero-pad-top) 0 var(--hero-pad-bottom);
+      display:grid;
+      gap: 34px;
+      align-items: start;
+    }
+    .tag{
+      display:inline-block;
+      padding: 7px 12px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-weight: 900;
+      font-size: .82rem;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-radius: 100px;
-      margin-bottom: 24px;
+      border-radius: 10px;
+      margin-bottom: 14px;
     }
-
-    .hero-buttons {
-      display: flex; gap: 16px; flex-wrap: wrap;
-    }
-
-    /* Card Hero */
-    .hero-card {
-      background: white;
-      padding: 40px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border-color);
-      position: relative;
-    }
-    .hero-card h3 { margin-bottom: 24px; font-size: 1.4rem; }
-    
-    .list-check li {
-      position: relative;
-      padding-left: 32px;
+    .hero h1{
+      font-size: clamp(2.35rem, 4.4vw, 3.35rem);
       margin-bottom: 16px;
-      font-size: 1.05rem;
-      color: var(--color-text-muted);
     }
-    .list-check li:last-child { margin-bottom: 0; }
-    
-    .list-check li::before {
-      content: "✓";
-      position: absolute; left: 0; top: 2px;
-      height: 20px; width: 20px;
-      background: var(--color-brand);
-      color: white;
-      border-radius: 50%;
-      font-size: 12px;
-      display: flex; align-items: center; justify-content: center;
+    .hero p{
+      font-size: 1.12rem;
+      max-width: 64ch;
+      margin-bottom: 18px;
+    }
+    .hero-actions{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 6px;
     }
 
-    /* --- 5. SEÇÕES E GRID (Refinados para evitar buracos) --- */
-    .section { padding: var(--section-padding) 0; }
-    .bg-alt { background-color: var(--color-bg-alt); }
-
-    .grid {
-      display: grid;
-      gap: 32px;
+    .hero-card{
+      background: rgba(255,255,255,.94);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 28px;
     }
-    /* Grid inteligente que preenche melhor o espaço */
-    .cols-2 { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
-    .cols-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .hero-card h3{ font-size: 1.25rem; margin-bottom: 14px; }
 
-    .card {
-      background: white;
-      padding: 32px;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
-      height: 100%; /* Garante que todos cards tenham mesma altura */
-      display: flex; flex-direction: column;
+    .list-check{
+      list-style: none;
+      display:grid;
+      gap: 10px;
     }
-    .card:hover {
-      transform: translateY(-5px);
+    .list-check li{
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+    }
+    .list-check li::before{
+      content:"✓";
+      position:absolute;
+      left:0; top:0;
+      color: var(--brand);
+      font-weight: 900;
+    }
+
+    /* Seções */
+    .section{ padding: var(--section-pad) 0; }
+    .bg-alt{ background: var(--bg-alt); }
+
+    .grid{
+      display:grid;
+      gap: 22px;
+    }
+    .cols-2{ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .cols-3{ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    .card{
+      background: rgba(255,255,255,.96);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .card:hover{
+      transform: translateY(-4px);
       box-shadow: var(--shadow-md);
-      border-color: #93C5FD;
+      border-color: #bfdbfe;
     }
-    .card h3 { margin-bottom: 16px; font-size: 1.25rem; }
-    .card p { 
-      margin-bottom: 0; 
-      font-size: 1rem; 
-      color: var(--color-text-muted);
-    }
+    .card h3{ font-size: 1.22rem; margin-bottom: 10px; }
+    .card p{ margin: 0; font-size: 1rem; }
 
-    /* Card Negativo (O que não fazemos) */
-    .card-negative {
-      border-left: 4px solid #EF4444; /* Detalhe visual sutil */
+    /* “O que não fazemos” (sem espaço gigante e sem desalinhamento) */
+    .card-negative ul{
+      display:grid;
+      gap: 14px;
     }
-    .card-negative ul { display: flex; flex-direction: column; gap: 16px; }
-    .card-negative li {
-      display: flex; align-items: flex-start; gap: 16px;
-      color: var(--color-text-muted);
+    .card-negative li{
+      display:flex;
+      align-items:flex-start;
+      gap: 12px;
+      color: var(--muted);
     }
-    .icon-no {
-      min-width: 24px; height: 24px;
-      background: #FEF2F2;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: #EF4444; font-weight: bold; font-size: 0.9rem;
-      margin-top: 2px; /* Alinhamento ótico com a linha do texto */
+    .icon-no{
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(239,68,68,.10);
+      color: #ef4444;
+      font-weight: 900;
+      flex: 0 0 auto;
+      transform: translateY(2px);
     }
 
     /* Steps */
-    .step-card { 
-      padding-top: 30px; 
-      border: none; background: transparent; 
-      box-shadow: none; 
-      padding-left: 0; padding-right: 0;
+    .step-card{ position: relative; overflow: hidden; }
+    .step-num{
+      font-size: 4.2rem;
+      font-weight: 900;
+      color: #e5e7eb;
+      position:absolute;
+      top: 10px;
+      right: 16px;
+      line-height: 1;
+      pointer-events:none;
     }
-    .step-card:hover { transform: none; box-shadow: none; }
-    
-    .step-num {
-      font-size: 3.5rem; font-weight: 800;
-      color: #E2E8F0;
-      line-height: 1; margin-bottom: 10px;
-    }
+    .step-content{ position: relative; z-index: 1; }
 
-    /* --- 6. CTA BOX --- */
-    .cta-box {
-      background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
-      border: 1px solid #DBEAFE;
-      border-radius: 24px;
-      padding: 60px 40px;
-      text-align: center;
-      box-shadow: var(--shadow-md);
+    /* CTA */
+    .cta-box{
+      background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 26px;
+      padding: clamp(28px, 4.6vw, 54px);
+      text-align:center;
+      box-shadow: var(--shadow-sm);
     }
-    .cta-box h2 { justify-content: center; margin-bottom: 20px; }
-    .cta-box h2::after { display: none; }
-    .cta-actions { margin-top: 40px; }
+    .cta-box h2{
+      font-size: clamp(1.55rem, 2.6vw, 2.05rem);
+      margin-bottom: 12px;
+    }
+    .cta-box p{
+      margin-inline: auto;
+      max-width: 70ch;
+      font-size: 1.08rem;
+    }
+    .cta-actions{
+      display:flex;
+      justify-content:center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+    .btn svg{ flex: 0 0 auto; }
 
-    /* --- 7. FORMULÁRIO --- */
-    .form-grid { display: grid; gap: 20px; }
-    
-    .form-control {
-      width: 100%;
-      padding: 16px;
-      border: 1px solid #CBD5E1;
-      border-radius: 10px;
-      font-family: inherit; font-size: 1rem;
-      background: #F8FAFC;
-      transition: 0.3s;
+    /* Form */
+    .form-grid{ display:grid; gap: 14px; }
+    label{ display:block; font-weight: 800; font-size: .92rem; margin-bottom: 6px; }
+    .form-control{
+      width:100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      font: inherit;
+      transition: .2s ease;
     }
-    .form-control:focus {
+    .form-control:focus{
       outline: none;
-      border-color: var(--color-brand);
-      background: white;
-      box-shadow: 0 0 0 4px var(--color-brand-light);
+      border-color: var(--brand);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--brand-soft);
+    }
+    textarea.form-control{ min-height: 120px; resize: vertical; }
+    .form-status{ min-height: 20px; font-weight: 700; font-size: .92rem; }
+
+    /* Footer */
+    footer{
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      padding: 54px 0 22px;
+      color: var(--muted);
+    }
+    .footer-grid{
+      display:grid;
+      gap: 34px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-bottom: 26px;
+      align-items: start;
+    }
+    .footer-col h4{ color: #0b1220; margin-bottom: 12px; }
+    .footer-col a:hover{ color: var(--brand); text-decoration: underline; }
+
+    .footer-logo{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .footer-logo img{
+      height: 42px;  /* ✅ destaque no footer */
+      width: auto;
+      object-fit: contain;
     }
 
-    /* --- 8. FOOTER --- */
-    footer {
-      background: #F1F5F9;
-      padding: 80px 0 30px;
-      color: var(--color-text-muted);
-      border-top: 1px solid var(--border-color);
-    }
-    .footer-col h4 { color: #0F172A; margin-bottom: 20px; font-size: 1.1rem; }
-    .footer-col ul li { margin-bottom: 10px; }
-    
-    /* Correção Logo Footer */
-    .footer-logo {
-      height: 40px; 
-      width: auto; 
-      margin-bottom: 20px;
-      opacity: 0.9;
-      mix-blend-mode: multiply; /* Tenta integrar melhor ao fundo cinza */
+    .copy{
+      text-align:center;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: .85rem;
     }
 
-    .copy { margin-top: 60px; color: #94A3B8; }
-
-    /* --- 9. RESPONSIVIDADE (FINE TUNING) --- */
-    @media (min-width: 900px) {
-      .hero {
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 60px;
+    /* Responsivo */
+    @media (min-width: 920px){
+      .hero{
+        grid-template-columns: 1.18fr 0.82fr;
+        align-items: center;
       }
-      .form-grid {
-        grid-template-columns: 1fr 1fr; /* Nome e Empresa lado a lado no desktop */
-      }
-      .form-grid .full-width { grid-column: span 2; }
     }
-    
-    @media (max-width: 600px) {
-      /* Ajuste fino para mobile */
-      .hero { padding-top: 40px; display: flex; flex-direction: column; text-align: left; }
-      .hero-buttons { width: 100%; }
-      .btn { width: 100%; }
-      .section-title::after { width: 40px; }
-      
-      /* Espaçamento interno dos cards menor no mobile */
-      .card { padding: 24px; }
-      .cta-box { padding: 40px 24px; }
+    @media (max-width: 640px){
+      :root{ --header-h: 72px; }
+      .logo img{ height: 48px; }
+      .hero-actions, .cta-actions{ flex-direction: column; }
+      .btn{ width: 100%; }
+      .hero-card{ padding: 22px; }
     }
   </style>
 </head>
 
 <body>
+  <div class="scroll-progress" aria-hidden="true"></div>
 
-  <div class="scroll-progress"></div>
-
-  <header id="header">
-    <div class="container nav-flex">
-      <a href="#" class="logo" aria-label="Lumvo Studio">
-        <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
-      </a>
-      <a href="#contato" class="btn btn-primary btn-sm">Falar com a Lumvo</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero container">
-      <div class="hero-content">
-        <span class="tag">Atendimento Operacional</span>
-        <h1>Apoio operacional para negócios de agenda.</h1>
-        <p>Organizamos processos, padronizamos o atendimento e garantimos tranquilidade operacional para clínicas e consultórios com alto volume de mensagens.</p>
-        
-        <div class="hero-buttons">
-          <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
-          <a href="#como-funciona" class="btn btn-outline">Como funciona</a>
-        </div>
+  <div class="page">
+    <header id="header">
+      <div class="container nav">
+        <a href="#top" class="logo" aria-label="Lumvo Studio" id="top">
+          <!-- ✅ Use PNG transparente OU SVG “trimado”. Se não, vai ficar pequeno / com fundo. -->
+          <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+        </a>
+        <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
       </div>
+    </header>
 
-      <div class="hero-card">
-        <h3>Para quem é?</h3>
-        <ul class="list-check">
-          <li>Clínicas e consultórios de agenda cheia</li>
-          <li>Gestores que buscam organização</li>
-          <li>Times que precisam de padrão no atendimento</li>
-          <li>Quem sofre com sobrecarga de mensagens</li>
-        </ul>
-      </div>
-    </section>
+    <main>
+      <section class="hero container" aria-label="Seção principal">
+        <div class="hero-content">
+          <span class="tag">Atendimento Operacional</span>
+          <h1>Apoio operacional para negócios de agenda.</h1>
+          <p>Organizamos processos, padronizamos o atendimento e garantimos tranquilidade operacional para clínicas e consultórios com alto volume de mensagens.</p>
 
-    <section class="section bg-alt" id="problemas">
-      <div class="container">
-        <h2 class="section-title">Problemas que resolvemos</h2>
-        <p class="subtitle">Atuamos diretamente nos gargalos que travam a sua operação e cansam sua equipe.</p>
-
-        <div class="grid cols-2">
-          <div class="card">
-            <h3>Falta de Padrão</h3>
-            <p>Respostas desencontradas, erros de português e clientes recebendo informações diferentes dependendo de quem atende.</p>
-          </div>
-          <div class="card">
-            <h3>Acúmulo de Demandas</h3>
-            <p>Recepção sobrecarregada pelo WhatsApp, demorando horas para responder e perdendo agendamentos.</p>
-          </div>
-          <div class="card">
-            <h3>Operação Instável</h3>
-            <p>Troca de funcionários gera caos. Sem processos definidos, cada novo atendente precisa aprender do zero.</p>
-          </div>
-          <div class="card">
-            <h3>Gestor "Bombeiro"</h3>
-            <p>Você passa o dia apagando incêndios operacionais em vez de focar no crescimento estratégico do negócio.</p>
+          <div class="hero-actions">
+            <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
+            <a href="#como-funciona" class="btn btn-outline">Como funciona</a>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="section container" id="o-que-fazemos">
-      <h2 class="section-title">O que fazemos</h2>
-      <p class="subtitle">Somos uma extensão profissional da sua equipe.</p>
-
-      <div class="grid cols-3">
-        <div class="card">
-          <h3>Atendimento de Mensagens</h3>
-          <p>Resposta rápida via WhatsApp e Direct, seguindo scripts validados e mantendo o tom de voz da sua marca.</p>
-        </div>
-        <div class="card">
-          <h3>Organização de Agenda</h3>
-          <p>Fluxos claros para confirmações, reagendamentos, lista de espera e informações recorrentes.</p>
-        </div>
-        <div class="card">
-          <h3>Criação de Processos</h3>
-          <p>Documentamos tudo. Se mudarmos a pessoa do nosso lado, o seu padrão de atendimento continua intacto.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section bg-alt" id="o-que-nao-fazemos">
-      <div class="container">
-        <h2 class="section-title">O que não fazemos</h2>
-        <p class="subtitle">Transparência total sobre nosso escopo de atuação.</p>
-
-        <div class="card card-negative">
-          <ul>
-            <li>
-              <div class="icon-no">✕</div>
-              <span>Não realizamos campanhas de tráfego pago ou anúncios (foco em operação, não marketing).</span>
-            </li>
-            <li>
-              <div class="icon-no">✕</div>
-              <span>Não fazemos "cold call" ou telemarketing agressivo de vendas.</span>
-            </li>
-            <li>
-              <div class="icon-no">✕</div>
-              <span>Não substituímos decisões clínicas ou técnicas do seu negócio.</span>
-            </li>
+        <div class="hero-card">
+          <h3>Para quem é?</h3>
+          <ul class="list-check">
+            <li>Clínicas e consultórios com agenda recorrente</li>
+            <li>Gestores que buscam organização e previsibilidade</li>
+            <li>Times que precisam de padrão e continuidade</li>
+            <li>Operações com alto volume de mensagens</li>
           </ul>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section container" id="como-funciona">
-      <h2 class="section-title">Como funciona</h2>
-      <p class="subtitle">Três passos simples para organizar a casa.</p>
+      <section class="section bg-alt" id="problemas">
+        <div class="container">
+          <h2 class="section-title">Problemas que resolvemos</h2>
+          <p class="subtitle">Atuamos diretamente nos gargalos que travam a operação e cansam sua equipe.</p>
 
-      <div class="grid cols-3">
-        <div class="card step-card">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <h3>Diagnóstico</h3>
-            <p>Entendemos seus fluxos atuais, volume de mensagens e principais dores operacionais.</p>
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>Falta de padrão</h3>
+              <p>Respostas desencontradas e retrabalho entre pessoas e turnos diferentes.</p>
+            </div>
+            <div class="card">
+              <h3>Acúmulo de demandas</h3>
+              <p>WhatsApp sobrecarregado, demora nas respostas e perda de agendamentos.</p>
+            </div>
+            <div class="card">
+              <h3>Operação instável</h3>
+              <p>Trocas de equipe sem processo geram rupturas e inconsistência no atendimento.</p>
+            </div>
+            <div class="card">
+              <h3>Gestor “bombeiro”</h3>
+              <p>Você vira suporte operacional em vez de focar no crescimento do negócio.</p>
+            </div>
           </div>
         </div>
-        <div class="card step-card">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <h3>Implementação</h3>
-            <p>Definimos os scripts, acessos, regras de atendimento e configuramos a rotina.</p>
-          </div>
-        </div>
-        <div class="card step-card">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <h3>Operação Contínua</h3>
-            <p>Executamos o atendimento diário e ajustamos processos com acompanhamento próximo.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section container">
-      <div class="cta-box">
-        <h2>Estruture seu atendimento hoje.</h2>
-        <p>Chega de perder mensagens e tempo. Fale com a Lumvo Studio e entenda como podemos apoiar sua operação.</p>
-        
-        <div class="cta-actions">
-          <a href="https://wa.me/5511959401727" target="_blank" class="btn btn-primary">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp Direto
-          </a>
-          <a href="#contato" class="btn btn-outline">Preencher Formulário</a>
-        </div>
-      </div>
-    </section>
+      <section class="section container" id="o-que-fazemos">
+        <h2 class="section-title">O que fazemos</h2>
+        <p class="subtitle">Somos uma extensão operacional da sua equipe, com foco em organização e atendimento eficiente.</p>
 
-    <section class="section bg-alt" id="contato">
-      <div class="container">
-        <h2 class="section-title">Entre em contato</h2>
-        <p class="subtitle">Envie seus dados e entraremos em contato para entender sua necessidade.</p>
-
-        <div class="grid cols-2">
+        <div class="grid cols-3">
           <div class="card">
-            <form id="lead-form">
-              <div class="form-grid">
-                <div class="form-group">
+            <h3>Atendimento de mensagens</h3>
+            <p>Resposta rápida via WhatsApp/Direct com padrões claros e tom de voz consistente.</p>
+          </div>
+          <div class="card">
+            <h3>Organização de agenda</h3>
+            <p>Fluxos para confirmações, reagendamentos, lista de espera e dúvidas recorrentes.</p>
+          </div>
+          <div class="card">
+            <h3>Processos documentados</h3>
+            <p>Rotinas e protocolos para garantir continuidade, mesmo com mudanças de equipe.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section bg-alt" id="o-que-nao-fazemos">
+        <div class="container">
+          <h2 class="section-title">O que não fazemos</h2>
+          <p class="subtitle">Transparência total sobre escopo: nosso foco é operação, não marketing/vendas agressivas.</p>
+
+          <div class="card card-negative">
+            <ul>
+              <li><span class="icon-no">✕</span><span>Não fazemos tráfego pago, campanhas ou anúncios (isso é marketing).</span></li>
+              <li><span class="icon-no">✕</span><span>Não realizamos telemarketing agressivo ou “cold call”.</span></li>
+              <li><span class="icon-no">✕</span><span>Não substituímos decisões clínicas/técnicas do seu negócio.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" id="como-funciona">
+        <h2 class="section-title">Como funciona</h2>
+        <p class="subtitle">Três passos simples para estruturar o atendimento e estabilizar a operação.</p>
+
+        <div class="grid cols-3">
+          <div class="card step-card">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Diagnóstico</h3>
+              <p>Mapeamos fluxo, volume de mensagens e prioridades operacionais.</p>
+            </div>
+          </div>
+          <div class="card step-card">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Implementação</h3>
+              <p>Definimos padrões, scripts, acessos e rotina de atendimento.</p>
+            </div>
+          </div>
+          <div class="card step-card">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Operação contínua</h3>
+              <p>Executamos e ajustamos com acompanhamento próximo do gestor.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" aria-label="Chamada para ação">
+        <div class="cta-box">
+          <h2>Estruture seu atendimento hoje.</h2>
+          <p>Chega de perder mensagens e tempo. Fale com a Lumvo Studio e entenda como podemos apoiar sua operação.</p>
+
+          <div class="cta-actions">
+            <a href="https://wa.me/5511959401727" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              WhatsApp Direto
+            </a>
+            <a href="#contato" class="btn btn-outline">Preencher formulário</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section bg-alt" id="contato">
+        <div class="container">
+          <h2 class="section-title">Entre em contato</h2>
+          <p class="subtitle">Envie seus dados e retornaremos com orientação objetiva sobre próximos passos.</p>
+
+          <div class="grid cols-2">
+            <div class="card">
+              <form id="lead-form" class="form-grid">
+                <div>
                   <label for="nome">Nome completo</label>
                   <input type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome" required>
                 </div>
-                
-                <div class="form-group">
-                  <label for="empresa">Nome da Empresa / Clínica</label>
+
+                <div>
+                  <label for="empresa">Empresa / Clínica</label>
                   <input type="text" id="empresa" name="empresa" class="form-control" placeholder="Ex: Clínica Saúde" required>
                 </div>
 
-                <div class="form-group full-width">
+                <div>
                   <label for="whatsapp">WhatsApp com DDD</label>
                   <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="(11) 99999-9999" required>
                 </div>
 
-                <div class="form-group full-width">
+                <div>
                   <label for="mensagem">Mensagem</label>
-                  <textarea id="mensagem" name="mensagem" class="form-control" style="min-height: 120px" placeholder="Conte um pouco sobre sua operação atual..." required></textarea>
+                  <textarea id="mensagem" name="mensagem" class="form-control" placeholder="Conte um pouco sobre sua operação atual..." required></textarea>
                 </div>
 
-                <div class="full-width">
-                  <button type="submit" class="btn btn-primary" style="width: 100%">Enviar Contato</button>
-                  <div id="form-status" class="form-status"></div>
-                </div>
-              </div>
-            </form>
-          </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Enviar contato</button>
+                <div id="form-status" class="form-status" aria-live="polite"></div>
+              </form>
+            </div>
 
-          <div style="display: flex; flex-direction: column; justify-content: center;">
-            <div class="card" style="background: transparent; border: none; box-shadow: none;">
-              <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Prefere falar agora?</h3>
-              <p style="margin-bottom: 30px;">Nossa equipe está disponível no WhatsApp para tirar dúvidas rápidas.</p>
-              
-              <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 1.1rem;">
-                <li style="display: flex; align-items: center; gap: 12px;">
-                  <span style="display:flex; align-items:center; justify-content:center; width: 40px; height: 40px; background: #DCFCE7; color: #16A34A; border-radius: 50%;">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                  </span>
-                  <a href="https://wa.me/5511959401727" style="font-weight: 600;">(11) 95940-1727</a>
-                </li>
-                <li style="display: flex; align-items: center; gap: 12px;">
-                  <span style="display:flex; align-items:center; justify-content:center; width: 40px; height: 40px; background: #DBEAFE; color: var(--color-brand); border-radius: 50%;">
-                    ✉
-                  </span>
-                  <a href="mailto:contato@lumvostudio.com.br">contato@lumvostudio.com.br</a>
-                </li>
-              </ul>
+            <div class="card">
+              <h3>Contato direto</h3>
+              <p style="margin-top:8px;">Se preferir, fale agora com nossa equipe.</p>
+              <p style="margin-top:14px;"><strong>WhatsApp:</strong> <a href="https://wa.me/5511959401727" style="text-decoration: underline;">(11) 95940-1727</a></p>
+              <p><strong>E-mail:</strong> <a href="mailto:contato@lumvostudio.com.br" style="text-decoration: underline;">contato@lumvostudio.com.br</a></p>
+              <p><strong>Domínio:</strong> lumvostudio.com.br</p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-  <footer>
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <img src="assets/logo-lumvo.svg" alt="Lumvo" class="footer-logo" onerror="this.src='assets/logo-lumvo.png'">
-        <p>Apoio operacional e atendimento eficiente para negócios de agenda.</p>
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+          </div>
+          <p>Apoio operacional e atendimento eficiente para negócios de agenda.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Links</h4>
+          <ul style="display:grid; gap:8px;">
+            <li><a href="#problemas">Problemas</a></li>
+            <li><a href="#o-que-fazemos">O que fazemos</a></li>
+            <li><a href="#como-funciona">Como funciona</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul style="display:grid; gap:8px;">
+            <li><a href="https://wa.me/5511959401727">WhatsApp: (11) 95940-1727</a></li>
+            <li><a href="mailto:contato@lumvostudio.com.br">contato@lumvostudio.com.br</a></li>
+          </ul>
+        </div>
       </div>
 
-      <div class="footer-col">
-        <h4>Links Rápidos</h4>
-        <ul>
-          <li><a href="#problemas">Problemas que resolvemos</a></li>
-          <li><a href="#o-que-fazemos">O que fazemos</a></li>
-          <li><a href="#como-funciona">Como funciona</a></li>
-        </ul>
+      <div class="container copy">
+        &copy; <span id="year"></span> Lumvo Studio. Todos os direitos reservados.
       </div>
-
-      <div class="footer-col">
-        <h4>Contato</h4>
-        <ul>
-          <li><a href="https://wa.me/5511959401727">WhatsApp: (11) 95940-1727</a></li>
-          <li><a href="mailto:contato@lumvostudio.com.br">contato@lumvostudio.com.br</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="container copy">
-      <p>&copy; <span id="year"></span> Lumvo Studio. Todos os direitos reservados.</p>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script>
-    // 1. Atualizar Ano no Footer
+    // Ano
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // 2. Barra de Progresso no Scroll & Shadow Header
-    window.addEventListener("scroll", () => {
-      const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollAtual = document.documentElement.scrollTop;
-      const progresso = (scrollAtual / scrollTotal);
-      
-      const progressBar = document.querySelector(".scroll-progress");
-      if(progressBar) progressBar.style.transform = `scaleX(${progresso})`;
+    // Header scrolled + progress
+    const header = document.getElementById("header");
+    const progress = document.querySelector(".scroll-progress");
 
-      const header = document.getElementById("header");
-      if(scrollAtual > 20) header.classList.add("scrolled");
+    function onScroll(){
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
+      const scrollHeight = doc.scrollHeight - doc.clientHeight;
+      const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+
+      progress.style.transform = `scaleX(${pct})`;
+      if (scrollTop > 12) header.classList.add("scrolled");
       else header.classList.remove("scrolled");
-    });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
 
-    // 3. Lógica do Formulário (Redireciona para WhatsApp)
+    // Form -> WhatsApp (robusto contra bloqueio de pop-up)
     const form = document.getElementById("lead-form");
     const statusDiv = document.getElementById("form-status");
+    const numeroDestino = "5511959401727";
 
-    if(form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault(); 
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-        const nome = document.getElementById("nome").value;
-        const empresa = document.getElementById("empresa").value;
-        const whatsapp = document.getElementById("whatsapp").value;
-        const mensagem = document.getElementById("mensagem").value;
-        
-        if(!nome || !empresa || !whatsapp || !mensagem) {
-          statusDiv.style.color = "#EF4444";
-          statusDiv.textContent = "Por favor, preencha todos os campos.";
-          return;
-        }
+      const nome = document.getElementById("nome").value.trim();
+      const empresa = document.getElementById("empresa").value.trim();
+      const whatsappRaw = document.getElementById("whatsapp").value.trim();
+      const mensagem = document.getElementById("mensagem").value.trim();
 
-        statusDiv.style.color = "var(--color-brand)";
-        statusDiv.textContent = "Abrindo WhatsApp...";
+      if(!nome || !empresa || !whatsappRaw || !mensagem){
+        statusDiv.style.color = "#ef4444";
+        statusDiv.textContent = "Preencha todos os campos.";
+        return;
+      }
 
-        const textoFinal = `*Novo Contato via Site*\n\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*WhatsApp:* ${whatsapp}\n*Mensagem:* ${mensagem}`;
-        const numeroDestino = "5511959401727";
-        const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
+      const whatsapp = whatsappRaw.replace(/\D/g, "");
+      if (whatsapp.length < 10){
+        statusDiv.style.color = "#ef4444";
+        statusDiv.textContent = "Informe um WhatsApp válido com DDD.";
+        return;
+      }
 
-        setTimeout(() => {
-          window.open(url, "_blank");
-          form.reset();
-          statusDiv.textContent = "";
-        }, 800);
-      });
-    }
+      statusDiv.style.color = "var(--brand)";
+      statusDiv.textContent = "Abrindo WhatsApp…";
+
+      const textoFinal =
+`*Novo contato via site*
+*Nome:* ${nome}
+*Empresa:* ${empresa}
+*WhatsApp:* ${whatsapp}
+*Mensagem:* ${mensagem}`;
+
+      const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
+
+      // tenta abrir nova aba, se bloquear, redireciona na mesma aba
+      const popup = window.open(url, "_blank", "noopener,noreferrer");
+      if (!popup) {
+        window.location.href = url;
+        return;
+      }
+
+      form.reset();
+      statusDiv.textContent = "";
+    });
   </script>
-
 </body>
 </html>
