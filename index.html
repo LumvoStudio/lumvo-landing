@@ -125,20 +125,22 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 16px;
-      padding-inline: 2px;
-    }
+      gap: 18px;
+      padding-inline: 18px; /* ✅ traz logo e botão pra dentro (menos “colado” nas bordas) */
+}
+
 
     /* ✅ Logo realmente grande e com destaque */
     .logo{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.78);
-      border: 1px solid rgba(229,231,235,.90);
-      box-shadow: 0 14px 32px rgba(0,0,0,.06);
+        display:flex;
+        align-items:center;
+        gap: 12px;
+        min-width: unset;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
     }
     .logo-mark{
       width: 220px;               /* “canvas” do logo (controla destaque) */
@@ -151,12 +153,17 @@
       background: radial-gradient(circle at 25% 30%, rgba(37,99,235,.10), transparent 60%);
     }
     .logo img{
-      height: 76px;               /* base grande */
-      width: auto;
-      object-fit: contain;
-      transform: translate(var(--logo-x), var(--logo-y)) scale(var(--logo-scale));
-      transform-origin: center;
-      filter: drop-shadow(0 12px 26px rgba(37,99,235,.16));
+       height: 78px;                 /* ✅ logo maior de verdade */
+        width: auto;
+        object-fit: contain;
+        image-rendering: auto;
+
+         /* ✅ mata o “whitespace” do arquivo + aumenta o preenchimento visual */
+        clip-path: inset(18% 22% 22% 18%);
+        transform: translate(var(--logo-x), var(--logo-y)) scale(var(--logo-scale));
+        transform-origin: center;
+
+        filter: drop-shadow(0 14px 30px rgba(37,99,235,.18));
     }
 
     .btn{
@@ -393,18 +400,31 @@
     }
 
     /* ✅ “Como funciona” com numeração bem discreta (volta ao watermark clássico) */
-    .step-card{ position: relative; overflow: hidden; }
-    .step-num{
-      font-size: 4.6rem;
-      font-weight: 900;
-      color: rgba(17,24,39,.08);
-      position:absolute;
-      top: 10px;
-      right: 16px;
-      line-height: 1;
-      pointer-events:none;
-      user-select:none;
+    .step-card{ 
+      position: relative; 
+      overflow: hidden; 
+      padding: 28px;
+      padding-top: 54px; /* ✅ espaço pro badge */
     }
+
+    .step-badge{
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background: var(--brand);
+      color: #fff;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: 0 14px 28px rgba(37,99,235,.28);
+    }
+
     .step-content{ position: relative; z-index: 1; }
 
     .cta-box{
@@ -475,30 +495,20 @@
       align-items:center;
       gap: 12px;
       margin-bottom: 12px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.78);
-      border: 1px solid rgba(229,231,235,.90);
-      width: fit-content;
-      box-shadow: 0 14px 32px rgba(0,0,0,.06);
-    }
-    .footer-logo .logo-mark{
-      width: 220px;
-      height: 58px;
-      border-radius: 14px;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: radial-gradient(circle at 25% 30%, rgba(37,99,235,.10), transparent 60%);
+
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      width: auto;
     }
     .footer-logo img{
-      height: 76px;
+      height: 54px;
       width: auto;
       object-fit: contain;
-      transform: translate(var(--logo-x), var(--logo-y)) scale(var(--logo-scale));
-      transform-origin: center;
-      filter: drop-shadow(0 12px 26px rgba(37,99,235,.14));
+      clip-path: inset(18% 22% 22% 18%);
+      filter: drop-shadow(0 10px 22px rgba(37,99,235,.10));
     }
 
     .copy{
@@ -522,7 +532,6 @@
     @media (max-width: 640px){
       :root{ --header-h: 86px; }
       .container{ width: min(92%, var(--max)); }
-      .logo{ padding: 8px 10px; }
       .logo-mark{ width: 190px; height: 54px; }
       .logo img{ height: 70px; }
       header .btn-primary{ padding-inline: 22px; }
@@ -667,21 +676,21 @@
 
         <div class="grid cols-3">
           <div class="card step-card">
-            <div class="step-num">1</div>
+            <div class="step-badge">1</div>
             <div class="step-content">
               <h3>Diagnóstico</h3>
               <p>Mapeamos fluxo, volume de mensagens e prioridades operacionais.</p>
             </div>
           </div>
           <div class="card step-card">
-            <div class="step-num">2</div>
+            <div class="step-badge">2</div>
             <div class="step-content">
               <h3>Implementação</h3>
               <p>Definimos padrões, scripts, acessos e rotina de atendimento.</p>
             </div>
           </div>
           <div class="card step-card">
-            <div class="step-num">3</div>
+            <div class="step-badge">3</div>
             <div class="step-content">
               <h3>Operação contínua</h3>
               <p>Executamos e ajustamos com acompanhamento próximo do gestor.</p>
@@ -756,8 +765,7 @@
       <div class="container footer-grid">
         <div class="footer-col">
           <div class="footer-logo">
-            <div class="logo-mark" aria-hidden="true">
-              <img src="assets/logo-lumvo.svg" alt="" onerror="this.src='assets/logo-lumvo.png'">
+              <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
             </div>
             <span style="position:absolute; left:-9999px;">Lumvo Studio</span>
           </div>
