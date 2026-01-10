@@ -37,11 +37,14 @@
       --shadow-lg: 0 14px 30px rgba(0,0,0,.10);
 
       /* ✅ Ritmo vertical (sem buracos e sem “grude”) */
-      --header-h: 78px;
-      --hero-pad-top: clamp(40px, 5.2vw, 64px);
-      --hero-pad-bottom: clamp(28px, 4vw, 44px);
-      --section-pad: clamp(52px, 6vw, 84px);  /* antes estava grande demais */
+      --header-h: 86px; /* ⬅️ cabeçalho mais “presente” */
+      --hero-pad-top: clamp(44px, 5.2vw, 72px);
+      --hero-pad-bottom: clamp(32px, 4vw, 52px);
+      --section-pad: clamp(52px, 6vw, 84px);
       --gap: 24px;
+
+      /* ✅ “Trim” visual para logo com whitespace (ajusta se precisar) */
+      --logo-clip: inset(8% 10% 10% 8%);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,7 +62,7 @@
     img { display: block; max-width: 100%; }
 
     .container{
-      width: min(92%, var(--max));
+      width: min(88%, var(--max)); /* ⬅️ mais “respiro” nas laterais */
       margin-inline: auto;
     }
 
@@ -100,14 +103,24 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid transparent;
-      transition: border-color .25s ease, box-shadow .25s ease;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.90));
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(229,231,235,.75);
+      transition: box-shadow .25s ease, border-color .25s ease;
+    }
+    header::after{
+      /* ⬅️ faixa “viva” no cabeçalho (sem virar carnaval) */
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-1px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(37,99,235,.25), transparent);
+      pointer-events:none;
     }
     header.scrolled{
+      box-shadow: 0 14px 34px rgba(0,0,0,.06);
       border-bottom-color: var(--border);
-      box-shadow: var(--shadow-sm);
     }
 
     .nav{
@@ -115,20 +128,27 @@
       align-items:center;
       justify-content:space-between;
       gap: 16px;
+      padding-inline: 2px; /* ⬅️ evita sensação de “colado” */
     }
 
-    /* ✅ Logo com destaque (mas depende do arquivo estar “trimado”) */
+    /* ✅ Logo maior + destacado + clip para reduzir “whitespace” do SVG */
     .logo{
       display:flex;
       align-items:center;
       gap: 12px;
-      min-width: 140px;
+      min-width: 160px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(229,231,235,.85);
+      box-shadow: 0 10px 24px rgba(0,0,0,.04);
     }
     .logo img{
-      height: 56px;             /* destaque real */
+      height: 64px; /* ⬅️ AUMENTA LOGO */
       width: auto;
       object-fit: contain;
-      image-rendering: auto;
+      filter: drop-shadow(0 10px 22px rgba(37,99,235,.12));
+      clip-path: var(--logo-clip); /* ⬅️ “corta” whitespace do arquivo */
     }
 
     /* Botões */
@@ -139,7 +159,7 @@
       gap: 10px;
       padding: 12px 22px;
       border-radius: 999px;
-      font-weight: 700;
+      font-weight: 800;
       border: 1px solid transparent;
       cursor: pointer;
       transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
@@ -148,7 +168,7 @@
     .btn-primary{
       background: var(--brand);
       color: #fff;
-      box-shadow: 0 10px 22px rgba(37,99,235,.22);
+      box-shadow: 0 16px 34px rgba(37,99,235,.24);
     }
     .btn-primary:hover{ background: var(--brand-dark); transform: translateY(-2px); }
 
@@ -162,6 +182,11 @@
       border-color: var(--brand);
       color: var(--brand);
       background: var(--brand-soft);
+    }
+
+    /* ⬅️ botão do canto superior direito com “respiro” e menos sensação de colado */
+    header .btn-primary{
+      margin-right: 2px;
     }
 
     /* Tipografia */
@@ -188,7 +213,7 @@
     .subtitle{
       max-width: 72ch;
       font-size: 1.08rem;
-      margin-bottom: 28px;  /* ✅ menos “buraco” que antes */
+      margin-bottom: 28px;
     }
 
     /* Hero */
@@ -197,17 +222,43 @@
       display:grid;
       gap: 34px;
       align-items: start;
+      position: relative; /* ⬅️ para blobs */
     }
+
+    /* ✅ “Vida” no centro: blobs suaves e glow (sem mudar conteúdo) */
+    .hero::before{
+      content:"";
+      position:absolute;
+      width: 520px; height: 520px;
+      left: -160px; top: -120px;
+      background: radial-gradient(circle at 30% 30%, rgba(37,99,235,.18), transparent 60%);
+      filter: blur(6px);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      width: 560px; height: 560px;
+      right: -220px; top: 40px;
+      background: radial-gradient(circle at 50% 50%, rgba(37,99,235,.14), transparent 62%);
+      filter: blur(8px);
+      opacity: .8;
+      pointer-events:none;
+    }
+
     .tag{
       display:inline-block;
-      padding: 7px 12px;
-      background: var(--brand-soft);
+      padding: 8px 14px;
+      background: rgba(239,246,255,.95);
       color: var(--brand);
       font-weight: 900;
       font-size: .82rem;
       letter-spacing: .08em;
       text-transform: uppercase;
-      border-radius: 10px;
+      border-radius: 999px; /* ⬅️ mais premium */
+      border: 1px solid rgba(37,99,235,.10);
+      box-shadow: 0 10px 22px rgba(0,0,0,.03);
       margin-bottom: 14px;
     }
     .hero h1{
@@ -227,12 +278,24 @@
     }
 
     .hero-card{
-      background: rgba(255,255,255,.94);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      padding: 28px;
+      background: rgba(255,255,255,.95);
+      border: 1px solid rgba(229,231,235,.92);
+      border-radius: calc(var(--radius) + 2px);
+      box-shadow: 0 18px 44px rgba(0,0,0,.10);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
     }
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(37,99,235,.10), transparent 38%),
+        radial-gradient(circle at 82% 0%, rgba(37,99,235,.08), transparent 42%);
+      pointer-events:none;
+    }
+    .hero-card > *{ position: relative; z-index: 1; }
     .hero-card h3{ font-size: 1.25rem; margin-bottom: 14px; }
 
     .list-check{
@@ -242,15 +305,22 @@
     }
     .list-check li{
       position: relative;
-      padding-left: 28px;
+      padding-left: 30px;
       color: var(--muted);
     }
     .list-check li::before{
       content:"✓";
       position:absolute;
       left:0; top:0;
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      background: rgba(37,99,235,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
       color: var(--brand);
       font-weight: 900;
+      transform: translateY(1px);
     }
 
     /* Seções */
@@ -280,11 +350,8 @@
     .card h3{ font-size: 1.22rem; margin-bottom: 10px; }
     .card p{ margin: 0; font-size: 1rem; }
 
-    /* “O que não fazemos” (sem espaço gigante e sem desalinhamento) */
-    .card-negative ul{
-      display:grid;
-      gap: 14px;
-    }
+    /* “O que não fazemos” */
+    .card-negative ul{ display:grid; gap: 14px; }
     .card-negative li{
       display:flex;
       align-items:flex-start;
@@ -373,10 +440,12 @@
       padding: 54px 0 22px;
       color: var(--muted);
     }
+
+    /* ✅ no final: 3 colunas lado a lado (desktop) */
     .footer-grid{
       display:grid;
       gap: 34px;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: 1fr;
       margin-bottom: 26px;
       align-items: start;
     }
@@ -388,11 +457,19 @@
       align-items:center;
       gap: 12px;
       margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(229,231,235,.85);
+      width: fit-content;
+      box-shadow: 0 10px 24px rgba(0,0,0,.04);
     }
     .footer-logo img{
-      height: 42px;  /* ✅ destaque no footer */
+      height: 54px; /* ⬅️ logo maior no final */
       width: auto;
       object-fit: contain;
+      clip-path: var(--logo-clip);
+      filter: drop-shadow(0 10px 22px rgba(37,99,235,.10));
     }
 
     .copy{
@@ -409,9 +486,16 @@
         align-items: center;
       }
     }
+    @media (min-width: 860px){
+      .footer-grid{
+        grid-template-columns: 1.25fr .85fr .85fr; /* ⬅️ lado a lado */
+      }
+    }
     @media (max-width: 640px){
-      :root{ --header-h: 72px; }
-      .logo img{ height: 48px; }
+      :root{ --header-h: 82px; }
+      .container{ width: min(92%, var(--max)); }
+      .logo{ padding: 8px 10px; }
+      .logo img{ height: 56px; }
       .hero-actions, .cta-actions{ flex-direction: column; }
       .btn{ width: 100%; }
       .hero-card{ padding: 22px; }
@@ -426,8 +510,8 @@
     <header id="header">
       <div class="container nav">
         <a href="#top" class="logo" aria-label="Lumvo Studio" id="top">
-          <!-- ✅ Use PNG transparente OU SVG “trimado”. Se não, vai ficar pequeno / com fundo. -->
-          <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+          <!-- ✅ força PNG primeiro p/ evitar SVG com fundo/whitespace; se não existir, cai no SVG -->
+          <img src="assets/logo-lumvo.png" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.svg'">
         </a>
         <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
       </div>
@@ -613,7 +697,7 @@
       <div class="container footer-grid">
         <div class="footer-col">
           <div class="footer-logo">
-            <img src="assets/logo-lumvo.svg" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.png'">
+            <img src="assets/logo-lumvo.png" alt="Lumvo Studio" onerror="this.src='assets/logo-lumvo.svg'">
           </div>
           <p>Apoio operacional e atendimento eficiente para negócios de agenda.</p>
         </div>
@@ -703,7 +787,6 @@
 
       const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
 
-      // tenta abrir nova aba, se bloquear, redireciona na mesma aba
       const popup = window.open(url, "_blank", "noopener,noreferrer");
       if (!popup) {
         window.location.href = url;
