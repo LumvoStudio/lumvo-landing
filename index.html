@@ -215,23 +215,20 @@ header.scrolled{
 .logo{
   display: flex;
   align-items: center;
-  gap: 12px;
   padding: 0;
-  border-radius: 12px;
   /* Removido o fundo branco sólido para um vidro sutil */
   background: none;
   border: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: all var(--dur) var(--ease);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: transform var(--dur) var(--ease);
 }
 .logo:hover{
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--brand);
-  transform: translateY(-1px);
+  background: transparent;
+  transform: scale(1.05);
 }
 .logo img{
-  height: 100px;
+  height: 120px;
   width:auto;
   display: block;
   object-fit: contain;
@@ -613,16 +610,15 @@ footer{
 .footer-logo {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  background: transparent;
 }
 
 .footer-logo img{
   height: 64px;
   width: auto;
-  object-fit: contain;
   /* Removido o borrão roxo/azul e mantido a nitidez */
-  filter: brightness(1) contrast(1.05);
-  opacity: 0.9;
+  filter: brightness(0) invert(1);
+  opacity: 1;
 }
 
 .copy{
