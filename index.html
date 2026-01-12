@@ -651,12 +651,24 @@ footer{
   .footer-grid{ grid-template-columns: 1.25fr .85fr .85fr; }
 }
 @media (max-width: 640px){
-  :root{ --header-h: 84px; }
+  :root{ --header-h: 70px; }
   .container{ width: min(94%, var(--max)); }
   .logo{ padding: 10px 12px; }
-  .logo img{ height: 48px; }
+  .logo img{ height: 75px; }
+
+  .nav .btn { 
+    width: auto !important; 
+    padding: 8px 14px !important; 
+    font-size: 0.85rem !important;
+    min-width: fit-content;
+  }
+
   .cta-actions{ flex-direction: column; }
-  .btn{ width: 100%; }
+  .cta-actions .btn,
+  .form-grid .btn { 
+    width: 100% !important; 
+    display: flex !important;
+  }
 }
 
   </style>
