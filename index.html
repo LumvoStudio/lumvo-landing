@@ -665,6 +665,11 @@ footer{
     width: 100%;
     z-index: 9999;
     height: var(--header-h);
+    background: rgba(7, 10, 18, 0.52) !important; 
+    
+    /* Garante que o efeito de vidro apareça */
+    backdrop-filter: blur(18px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
   }
 
   body{
