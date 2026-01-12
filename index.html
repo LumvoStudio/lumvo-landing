@@ -186,11 +186,6 @@ header{
   width: 100%;
   z-index: 1000;
 
-  padding-top: env(safe-area-inset-top);
-  height: calc(var(--header-h) + env(safe-area-inset-top));
-  z-index: 10000;
-
-
   background: rgba(7,10,18,.52);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
@@ -213,7 +208,7 @@ header.scrolled{
 }
 
 main {
-  margin-top: calc(var(--header-h) + env(safe-area-inset-top)); /* Empurra o site para baixo para não brotar atrás do header */
+  margin-top: var(--header-h); /* Empurra o site para baixo para não brotar atrás do header */
 }
 
 /* Nav spacing */
