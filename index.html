@@ -19,7 +19,7 @@
   <style>
     :root{
   /* Base */
-  --bg: #070A12;
+  --bg: #070A12;         /* base escura premium por baixo do mesh */
   --bg-alt: #0A0F1D;
   --text: #EAF0FF;
   --muted: rgba(234,240,255,.72);
@@ -36,7 +36,7 @@
   --max: 1120px;
   --radius: 18px;
 
-  /* Shadows */
+  /* Shadows (luxo: menos “cinza”, mais profundidade) */
   --shadow-sm: 0 10px 30px rgba(0,0,0,.28);
   --shadow-md: 0 22px 70px rgba(0,0,0,.42);
   --shadow-lg: 0 38px 120px rgba(0,0,0,.55);
@@ -79,17 +79,20 @@ body{
 a{ color:inherit; text-decoration:none; }
 img{ display:block; max-width:100%; }
 
+/* Container */
 .container{
   width: min(92%, var(--max));
   margin-inline:auto;
 }
 
+/* Page background: mesh + bloom + grain */
 .page{
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
 
+/* ✅ Mesh “orgânico” (camadas) */
 .page::before{
   content:"";
   position:absolute;
@@ -108,6 +111,7 @@ img{ display:block; max-width:100%; }
   pointer-events:none;
 }
 
+/* ✅ Bloom difuso (luz volumétrica) */
 .page::after{
   content:"";
   position:absolute;
@@ -123,8 +127,21 @@ img{ display:block; max-width:100%; }
   pointer-events:none;
 }
 
+/* ✅ Grain premium (sem imagem externa) */
 .page > *{ position: relative; z-index: 1; }
+.page{
+  /* overlay grain via background-blend em pseudo */
+}
+.page .grain-overlay{ display:none; } /* segurança, caso exista algo */
+.page::marker{ content:""; }
 
+.page::selection{ background: rgba(37,99,235,.35); }
+
+.page:before{ /* já usado */ }
+
+.page::after{ /* já usado */ }
+
+/* Grain adicional por body pseudo (mais uniforme no site todo) */
 body::before{
   content:"";
   position: fixed;
@@ -132,6 +149,7 @@ body::before{
   pointer-events:none;
   z-index: 0;
   background:
+    /* ruído com múltiplas camadas */
     radial-gradient(circle at 20% 20%, rgba(255,255,255,.05), transparent 35%),
     radial-gradient(circle at 80% 30%, rgba(255,255,255,.035), transparent 40%),
     radial-gradient(circle at 40% 80%, rgba(255,255,255,.03), transparent 45%),
@@ -141,6 +159,7 @@ body::before{
   opacity: .35;
 }
 
+/* Progress bar */
 .scroll-progress{
   position: fixed;
   top: 0; left: 0;
@@ -153,6 +172,7 @@ body::before{
   box-shadow: 0 8px 30px rgba(37,99,235,.35);
 }
 
+/* Header (glass premium) */
 header{
   height: var(--header-h);
   display:flex;
@@ -163,10 +183,12 @@ header{
   right: 0;
   width: 100%;
   z-index: 1000;
+
   background: rgba(7,10,18,.52);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border-bottom: 1px solid rgba(255,255,255,.10);
+
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 header::after{
@@ -184,9 +206,10 @@ header.scrolled{
 }
 
 main {
-  margin-top: var(--header-h);
+  margin-top: var(--header-h); /* Empurra o site para baixo para não brotar atrás do header */
 }
 
+/* Nav spacing */
 .nav{
   display:flex;
   align-items:center;
@@ -195,15 +218,20 @@ main {
   padding-inline: 16px;
 }
 
+/* Logo: editorial clean, com presença */
 .logo{
   display: flex;
   align-items: center;
   padding: 0;
+  /* Removido o fundo branco sólido para um vidro sutil */
   background: none;
   border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transition: transform var(--dur) var(--ease);
 }
 .logo:hover{
+  background: transparent;
   transform: scale(1.05);
 }
 .logo img{
@@ -211,9 +239,10 @@ main {
   width:auto;
   display: block;
   object-fit: contain;
-  background: transparent;
+  ;background: transparent;
 }
 
+/* Buttons: luxo digital */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -249,6 +278,7 @@ main {
   box-shadow: 0 26px 80px rgba(37,99,235,.35), 0 20px 90px rgba(0,0,0,.42);
 }
 
+/* Typography: editorial */
 h1,h2,h3{
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -257,6 +287,7 @@ h1,h2,h3{
 }
 p{ color: var(--muted); }
 
+/* Section title underline: mais “editorial”, menos “genérico” */
 .section-title{
   font-size: clamp(1.7rem, 2.8vw, 2.3rem);
   display:flex;
@@ -281,6 +312,7 @@ p{ color: var(--muted); }
   color: rgba(234,240,255,.70);
 }
 
+/* HERO */
 .hero{
   padding: var(--hero-pad-top) 0 var(--hero-pad-bottom);
   display:grid;
@@ -289,6 +321,7 @@ p{ color: var(--muted); }
   position: relative;
 }
 
+/* Hero: “placa de vidro” invisível pra dar contraste sem mudar estrutura */
 .hero::before{
   content:"";
   position:absolute;
@@ -332,6 +365,7 @@ p{ color: var(--muted); }
   color: rgba(234,240,255,.72);
 }
 
+/* Cards: glassmorphism premium */
 .card,
 .hero-card,
 .cta-box{
@@ -342,6 +376,7 @@ p{ color: var(--muted); }
   -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
+/* Card base */
 .card{
   border-radius: var(--radius);
   padding: 26px;
@@ -350,6 +385,7 @@ p{ color: var(--muted); }
   overflow: hidden;
 }
 
+/* Specular highlight (vidro real) */
 .card::before{
   content:"";
   position:absolute;
@@ -364,6 +400,7 @@ p{ color: var(--muted); }
   box-shadow: 0 30px 110px rgba(0,0,0,.55), 0 18px 90px rgba(37,99,235,.14);
 }
 
+/* Hero card */
 .hero-card{
   border-radius: calc(var(--radius) + 4px);
   padding: 28px;
@@ -386,6 +423,7 @@ p{ color: var(--muted); }
   pointer-events:none;
 }
 
+/* Check list */
 .list-check{
   list-style: none;
   display:grid;
@@ -412,8 +450,10 @@ p{ color: var(--muted); }
   box-shadow: 0 12px 30px rgba(37,99,235,.18);
 }
 
+/* Sections */
 .section{ padding: var(--section-pad) 0; }
 
+/* Alternating bg: vira “veludo” ao invés de cinza */
 .bg-alt{
   background:
     radial-gradient(900px 500px at 12% 20%, rgba(37,99,235,.10), transparent 55%),
@@ -423,6 +463,7 @@ p{ color: var(--muted); }
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
+/* Grid */
 .grid{ display:grid; gap: 22px; }
 .cols-2{ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 .cols-3{ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
@@ -437,6 +478,7 @@ p{ color: var(--muted); }
   color: rgba(234,240,255,.70);
 }
 
+/* Negative list */
 .card-negative ul{ display:grid; gap: 14px; }
 .card-negative li{
   display:flex;
@@ -458,6 +500,7 @@ p{ color: var(--muted); }
   border: 1px solid rgba(255,255,255,.10);
 }
 
+/* COMO FUNCIONA: editorial watermark numérico + alinhamento perfeito */
 .step-card{
   padding: 28px;
   padding-right: 84px;
@@ -476,6 +519,7 @@ p{ color: var(--muted); }
   text-shadow: 0 18px 60px rgba(0,0,0,.30);
 }
 
+/* CTA box */
 .cta-box{
   border-radius: 28px;
   padding: clamp(28px, 4.8vw, 56px);
@@ -513,6 +557,7 @@ p{ color: var(--muted); }
   margin-top: 22px;
 }
 
+/* Form */
 .form-grid{ display:grid; gap: 14px; }
 label{ display:block; font-weight: 900; font-size: .92rem; margin-bottom: 6px; color: rgba(234,240,255,.88); }
 
@@ -539,6 +584,7 @@ label{ display:block; font-weight: 900; font-size: .92rem; margin-bottom: 6px; c
 textarea.form-control{ min-height: 120px; resize: vertical; }
 .form-status{ min-height: 20px; font-weight: 800; font-size: .92rem; }
 
+/* Footer */
 footer{
   background:
     radial-gradient(900px 560px at 20% 10%, rgba(37,99,235,.10), transparent 60%),
@@ -577,6 +623,7 @@ footer{
 .footer-logo img{
   height: 64px;
   width: auto;
+  /* Removido o borrão roxo/azul e mantido a nitidez */
   filter: brightness(0) invert(1);
   opacity: 1;
 }
@@ -589,12 +636,17 @@ footer{
   color: rgba(234,240,255,.60);
 }
 
+/* Micro-interações: reduzidas e elegantes */
 @media (prefers-reduced-motion: no-preference){
   .card, .btn, .logo{
     will-change: transform;
   }
+  .card:hover{
+    transform: translateY(-6px);
+  }
 }
 
+/* Layout responsiveness */
 @media (min-width: 920px){
   .hero{
     grid-template-columns: 1.18fr 0.82fr;
@@ -605,14 +657,18 @@ footer{
 @media (min-width: 860px){
   .footer-grid{ grid-template-columns: 1.25fr .85fr .85fr; }
 }
-
 @media (max-width: 640px){
+
   header{
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 9999;
     height: var(--header-h);
+  }
+
+  body{
+    padding-top: var(--header-h);
   }
 
   :root{ --header-h: 100px; }
@@ -635,12 +691,12 @@ footer{
     font-weight: 800 !important;
     min-width: fit-content;
     height: 40px;
-    flex-shrink: 0;
+    flex-shrink: 0
   }
 
   .hero h1 {
     font-size: 1.8rem;
-    margin-top: 0px; /* Vão removido: agora cola no topo respeitando o main margin */
+    margin-top: 40px;
   }
 
   .hero-card{
@@ -654,6 +710,7 @@ footer{
     display: flex !important;
   }
 }
+
   </style>
 </head>
 
@@ -663,9 +720,10 @@ footer{
   <div class="page">
     <header id="header">
       <div class="container nav">
-        <a href="/" class="logo" aria-label="Lumvo Studio">
+        <a href="#top" class="logo" aria-label="Lumvo Studio" id="top">
           <img src="assets/logo-lumvo.png" alt="Lumvo Studio">
         </a>
+
         <a href="#contato" class="btn btn-primary">Falar com a Lumvo</a>
       </div>
     </header>
@@ -676,7 +734,7 @@ footer{
           <span class="tag">Atendimento Operacional</span>
           <h1>Apoio operacional para negócios de agenda.</h1>
           <p>Organizamos processos, padronizamos o atendimento e garantimos tranquilidade operacional para clínicas e consultórios com alto volume de mensagens.</p>
-        </div>
+          </div>
 
         <div class="hero-card">
           <h3>Para quem é?</h3>
@@ -693,6 +751,7 @@ footer{
         <div class="container">
           <h2 class="section-title">Problemas que resolvemos</h2>
           <p class="subtitle">Atuamos diretamente nos gargalos que travam a operação e cansam sua equipe.</p>
+
           <div class="grid cols-3">
             <div class="card">
               <h3>Falta de padrão</h3>
@@ -725,6 +784,7 @@ footer{
       <section class="section container" id="o-que-fazemos">
         <h2 class="section-title">O que fazemos</h2>
         <p class="subtitle">Somos uma extensão operacional da sua equipe, com foco em organização, padrão e eficiência.</p>
+
         <div class="grid cols-3">
           <div class="card">
             <h3>Atendimento de mensagens</h3>
@@ -740,7 +800,7 @@ footer{
           </div>
           <div class="card">
             <h3>Confirmação e redução de faltas</h3>
-            <p>Lembretes, confirmações e regras claras para reduzir no-show e aumentar ocupação.</p>
+            <p>Lembretes, comfirmações e regras claras para reduzir no-show e aumentar ocupação.</p>
           </div>
           <div class="card">
             <h3>Relatórios e indicadores</h3>
@@ -757,11 +817,12 @@ footer{
         <div class="container">
           <h2 class="section-title">O que não fazemos</h2>
           <p class="subtitle">Transparência total sobre escopo: nosso foco é operação, não marketing/vendas agressivas.</p>
+
           <div class="card card-negative">
             <ul>
-              <li><span class="icon-no">✕</span><span>Não fazemos tráfego pago, campanhas ou anúncios.</span></li>
+              <li><span class="icon-no">✕</span><span>Não fazemos tráfego pago, campanhas ou anúncios (isso é marketing).</span></li>
               <li><span class="icon-no">✕</span><span>Não realizamos telemarketing agressivo ou “cold call”.</span></li>
-              <li><span class="icon-no">✕</span><span>Não substituímos decisões clínicas do seu negócio.</span></li>
+              <li><span class="icon-no">✕</span><span>Não substituímos decisões clínicas/técnicas do seu negócio.</span></li>
             </ul>
           </div>
         </div>
@@ -770,17 +831,20 @@ footer{
       <section class="section container" id="como-funciona">
         <h2 class="section-title">Como funciona</h2>
         <p class="subtitle">Três passos simples para estruturar o atendimento e estabilizar a operação.</p>
+
         <div class="grid cols-3">
           <div class="card step-card">
             <div class="step-num">1</div>
             <h3>Diagnóstico</h3>
             <p>Mapeamos fluxo, volume de mensagens e prioridades operacionais.</p>
           </div>
+
           <div class="card step-card">
             <div class="step-num">2</div>
             <h3>Implementação</h3>
             <p>Definimos padrões, scripts, acessos e rotina de atendimento.</p>
           </div>
+
           <div class="card step-card">
             <div class="step-num">3</div>
             <h3>Operação contínua</h3>
@@ -792,10 +856,15 @@ footer{
       <section class="section container" aria-label="Chamada para ação">
         <div class="cta-box">
           <h2>Estruture seu atendimento hoje.</h2>
-          <p>Chega de perder mensagens e tempo. Fale com a Lumvo Studio.</p>
+          <p>Chega de perder mensagens e tempo. Fale com a Lumvo Studio e entenda como podemos apoiar sua operação.</p>
+
           <div class="cta-actions">
-            <a href="https://wa.me/5511959401727" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp Direto</a>
-            <a href="#contato" class="btn btn-primary" style="background:#0b1220; box-shadow: 0 18px 40px rgba(11,18,32,.18);">Preencher formulário</a>
+            <a href="https://wa.me/5511959401727" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              WhatsApp Direto
+            </a>
+            <a href="#contato" class="btn btn-primary" style="background:#0b1220; box-shadow: 0 18px 40px rgba(11,18,32,.18);">
+              Preencher formulário
+            </a>
           </div>
         </div>
       </section>
@@ -803,33 +872,42 @@ footer{
       <section class="section bg-alt" id="contato">
         <div class="container">
           <h2 class="section-title">Entre em contato</h2>
+          <p class="subtitle">Envie seus dados e retornaremos com orientação objetiva sobre próximos passos.</p>
+
           <div class="grid cols-2">
             <div class="card">
               <form id="lead-form" class="form-grid">
                 <div>
                   <label for="nome">Nome completo</label>
-                  <input type="text" id="nome" class="form-control" placeholder="Seu nome" required>
+                  <input type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome" required>
                 </div>
+
                 <div>
                   <label for="empresa">Empresa / Clínica</label>
-                  <input type="text" id="empresa" class="form-control" placeholder="Ex: Clínica Saúde" required>
+                  <input type="text" id="empresa" name="empresa" class="form-control" placeholder="Ex: Clínica Saúde" required>
                 </div>
+
                 <div>
                   <label for="whatsapp">WhatsApp com DDD</label>
-                  <input type="tel" id="whatsapp" class="form-control" placeholder="(11) 99999-9999" required>
+                  <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="(11) 99999-9999" required>
                 </div>
+
                 <div>
                   <label for="mensagem">Mensagem</label>
-                  <textarea id="mensagem" class="form-control" placeholder="Conte um pouco sobre sua operação..." required></textarea>
+                  <textarea id="mensagem" name="mensagem" class="form-control" placeholder="Conte um pouco sobre sua operação atual..." required></textarea>
                 </div>
+
                 <button type="submit" class="btn btn-primary" style="width:100%;">Enviar contato</button>
-                <div id="form-status" class="form-status"></div>
+                <div id="form-status" class="form-status" aria-live="polite"></div>
               </form>
             </div>
+
             <div class="card">
               <h3>Contato direto</h3>
+              <p style="margin-top:8px;">Se preferir, fale agora com nossa equipe.</p>
               <p style="margin-top:14px;"><strong>WhatsApp:</strong> <a href="https://wa.me/5511959401727" style="text-decoration: underline;">(11) 95940-1727</a></p>
               <p><strong>E-mail:</strong> <a href="mailto:contato@lumvostudio.com.br" style="text-decoration: underline;">contato@lumvostudio.com.br</a></p>
+              <p><strong>Domínio:</strong> lumvostudio.com.br</p>
             </div>
           </div>
         </div>
@@ -839,26 +917,31 @@ footer{
     <footer>
       <div class="container footer-grid">
         <div class="footer-col">
-          <div class="footer-logo">
-            <img src="assets/logo-lumvo.png" alt="Lumvo Studio">
+          <div class="footer-logo" aria-label="Lumvo Studio">
+            <img src="assets/logo-lumvo.png" alt="Lumvo Studio"">
           </div>
           <p style="margin-top:10px;">Apoio operacional e atendimento eficiente para negócios de agenda.</p>
         </div>
+
         <div class="footer-col">
           <h4>Links</h4>
           <ul style="display:grid; gap:8px;">
             <li><a href="#problemas">Problemas</a></li>
             <li><a href="#o-que-fazemos">O que fazemos</a></li>
+            <li><a href="#como-funciona">Como funciona</a></li>
             <li><a href="#contato">Contato</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
           <h4>Contato</h4>
           <ul style="display:grid; gap:8px;">
             <li><a href="https://wa.me/5511959401727">WhatsApp: (11) 95940-1727</a></li>
+            <li><a href="mailto:contato@lumvostudio.com.br">contato@lumvostudio.com.br</a></li>
           </ul>
         </div>
       </div>
+
       <div class="container copy">
         &copy; <span id="year"></span> Lumvo Studio. Todos os direitos reservados.
       </div>
@@ -867,6 +950,7 @@ footer{
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
     const header = document.getElementById("header");
     const progress = document.querySelector(".scroll-progress");
 
@@ -875,6 +959,7 @@ footer{
       const scrollTop = doc.scrollTop || document.body.scrollTop;
       const scrollHeight = doc.scrollHeight - doc.clientHeight;
       const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+
       progress.style.transform = `scaleX(${pct})`;
       if (scrollTop > 12) header.classList.add("scrolled");
       else header.classList.remove("scrolled");
@@ -885,16 +970,43 @@ footer{
 
     const form = document.getElementById("lead-form");
     const statusDiv = document.getElementById("form-status");
+    const numeroDestino = "5511959401727";
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const nome = document.getElementById("nome").value;
-      const empresa = document.getElementById("empresa").value;
-      const whatsapp = document.getElementById("whatsapp").value;
-      const mensagem = document.getElementById("mensagem").value;
-      const textoFinal = `*Novo contato via site*\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*WhatsApp:* ${whatsapp}\n*Mensagem:* ${mensagem}`;
-      const url = `https://wa.me/5511959401727?text=${encodeURIComponent(textoFinal)}`;
-      window.open(url, "_blank");
+
+      const nome = document.getElementById("nome").value.trim();
+      const empresa = document.getElementById("empresa").value.trim();
+      const whatsappRaw = document.getElementById("whatsapp").value.trim();
+      const mensagem = document.getElementById("mensagem").value.trim();
+
+      if(!nome || !empresa || !whatsappRaw || !mensagem){
+        statusDiv.style.color = "#ef4444";
+        statusDiv.textContent = "Preencha todos os campos.";
+        return;
+      }
+
+      const whatsapp = whatsappRaw.replace(/\D/g, "");
+      if (whatsapp.length < 10){
+        statusDiv.style.color = "#ef4444";
+        statusDiv.textContent = "Informe um WhatsApp válido com DDD.";
+        return;
+      }
+
+      statusDiv.style.color = "var(--brand)";
+      statusDiv.textContent = "Abrindo WhatsApp…";
+
+      const textoFinal = `*Novo contato via site*\n\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*WhatsApp:* ${whatsapp}\n*Mensagem:* ${mensagem}`;
+      const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
+
+      const popup = window.open(url, "_blank", "noopener,noreferrer");
+      if (!popup) {
+        window.location.href = url;
+        return;
+      }
+
       form.reset();
+      statusDiv.textContent = "";
     });
   </script>
 </body>
