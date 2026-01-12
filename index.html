@@ -651,6 +651,19 @@ footer{
   .footer-grid{ grid-template-columns: 1.25fr .85fr .85fr; }
 }
 @media (max-width: 640px){
+
+  header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    height: var(--header-h);
+  }
+
+  body{
+    padding-top: var(--header-h);
+  }
+
   :root{ --header-h: 100px; }
 
   .nav {
