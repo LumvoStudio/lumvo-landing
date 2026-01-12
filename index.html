@@ -43,7 +43,7 @@
 
   /* Header / spacing */
   --header-h: 90px;
-  --hero-pad-top: clamp(52px, 6vw, 88px);
+  --hero-pad-top: clamp(40px, 5vw, 74px); /* ALTERADO (desktop): sobe o bloco "Atendimento Operacional" */
   --hero-pad-bottom: clamp(40px, 4.4vw, 70px);
   --section-pad: clamp(58px, 6.4vw, 98px);
 
@@ -129,17 +129,11 @@ img{ display:block; max-width:100%; }
 
 /* ✅ Grain premium (sem imagem externa) */
 .page > *{ position: relative; z-index: 1; }
-.page{
-  /* overlay grain via background-blend em pseudo */
-}
-.page .grain-overlay{ display:none; } /* segurança, caso exista algo */
+.page .grain-overlay{ display:none; }
 .page::marker{ content:""; }
-
 .page::selection{ background: rgba(37,99,235,.35); }
-
-.page:before{ /* já usado */ }
-
-.page::after{ /* já usado */ }
+.page:before{ }
+.page::after{ }
 
 /* Grain adicional por body pseudo (mais uniforme no site todo) */
 body::before{
@@ -149,7 +143,6 @@ body::before{
   pointer-events:none;
   z-index: 0;
   background:
-    /* ruído com múltiplas camadas */
     radial-gradient(circle at 20% 20%, rgba(255,255,255,.05), transparent 35%),
     radial-gradient(circle at 80% 30%, rgba(255,255,255,.035), transparent 40%),
     radial-gradient(circle at 40% 80%, rgba(255,255,255,.03), transparent 45%),
@@ -206,7 +199,7 @@ header.scrolled{
 }
 
 main {
-  margin-top: var(--header-h); /* Empurra o site para baixo para não brotar atrás do header */
+  margin-top: var(--header-h);
 }
 
 /* Nav spacing */
@@ -218,12 +211,11 @@ main {
   padding-inline: 16px;
 }
 
-/* Logo: editorial clean, com presença */
+/* Logo */
 .logo{
   display: flex;
   align-items: center;
   padding: 0;
-  /* Removido o fundo branco sólido para um vidro sutil */
   background: none;
   border: none;
   backdrop-filter: none;
@@ -242,7 +234,7 @@ main {
   ;background: transparent;
 }
 
-/* Buttons: luxo digital */
+/* Buttons */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -278,7 +270,7 @@ main {
   box-shadow: 0 26px 80px rgba(37,99,235,.35), 0 20px 90px rgba(0,0,0,.42);
 }
 
-/* Typography: editorial */
+/* Typography */
 h1,h2,h3{
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -287,7 +279,6 @@ h1,h2,h3{
 }
 p{ color: var(--muted); }
 
-/* Section title underline: mais “editorial”, menos “genérico” */
 .section-title{
   font-size: clamp(1.7rem, 2.8vw, 2.3rem);
   display:flex;
@@ -321,7 +312,6 @@ p{ color: var(--muted); }
   position: relative;
 }
 
-/* Hero: “placa de vidro” invisível pra dar contraste sem mudar estrutura */
 .hero::before{
   content:"";
   position:absolute;
@@ -365,7 +355,7 @@ p{ color: var(--muted); }
   color: rgba(234,240,255,.72);
 }
 
-/* Cards: glassmorphism premium */
+/* Cards */
 .card,
 .hero-card,
 .cta-box{
@@ -376,7 +366,6 @@ p{ color: var(--muted); }
   -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
-/* Card base */
 .card{
   border-radius: var(--radius);
   padding: 26px;
@@ -384,8 +373,6 @@ p{ color: var(--muted); }
   position: relative;
   overflow: hidden;
 }
-
-/* Specular highlight (vidro real) */
 .card::before{
   content:"";
   position:absolute;
@@ -400,7 +387,6 @@ p{ color: var(--muted); }
   box-shadow: 0 30px 110px rgba(0,0,0,.55), 0 18px 90px rgba(37,99,235,.14);
 }
 
-/* Hero card */
 .hero-card{
   border-radius: calc(var(--radius) + 4px);
   padding: 28px;
@@ -423,7 +409,6 @@ p{ color: var(--muted); }
   pointer-events:none;
 }
 
-/* Check list */
 .list-check{
   list-style: none;
   display:grid;
@@ -450,10 +435,8 @@ p{ color: var(--muted); }
   box-shadow: 0 12px 30px rgba(37,99,235,.18);
 }
 
-/* Sections */
 .section{ padding: var(--section-pad) 0; }
 
-/* Alternating bg: vira “veludo” ao invés de cinza */
 .bg-alt{
   background:
     radial-gradient(900px 500px at 12% 20%, rgba(37,99,235,.10), transparent 55%),
@@ -463,7 +446,6 @@ p{ color: var(--muted); }
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
-/* Grid */
 .grid{ display:grid; gap: 22px; }
 .cols-2{ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 .cols-3{ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
@@ -478,7 +460,6 @@ p{ color: var(--muted); }
   color: rgba(234,240,255,.70);
 }
 
-/* Negative list */
 .card-negative ul{ display:grid; gap: 14px; }
 .card-negative li{
   display:flex;
@@ -500,7 +481,6 @@ p{ color: var(--muted); }
   border: 1px solid rgba(255,255,255,.10);
 }
 
-/* COMO FUNCIONA: editorial watermark numérico + alinhamento perfeito */
 .step-card{
   padding: 28px;
   padding-right: 84px;
@@ -519,7 +499,6 @@ p{ color: var(--muted); }
   text-shadow: 0 18px 60px rgba(0,0,0,.30);
 }
 
-/* CTA box */
 .cta-box{
   border-radius: 28px;
   padding: clamp(28px, 4.8vw, 56px);
@@ -557,7 +536,6 @@ p{ color: var(--muted); }
   margin-top: 22px;
 }
 
-/* Form */
 .form-grid{ display:grid; gap: 14px; }
 label{ display:block; font-weight: 900; font-size: .92rem; margin-bottom: 6px; color: rgba(234,240,255,.88); }
 
@@ -623,8 +601,7 @@ footer{
 .footer-logo img{
   height: 64px;
   width: auto;
-  /* Removido o borrão roxo/azul e mantido a nitidez */
-  filter: none; /* ALTERADO: era brightness(0) invert(1) */
+  filter: none;
   opacity: 1;
 }
 
@@ -636,7 +613,6 @@ footer{
   color: rgba(234,240,255,.60);
 }
 
-/* Micro-interações: reduzidas e elegantes */
 @media (prefers-reduced-motion: no-preference){
   .card, .btn, .logo{
     will-change: transform;
@@ -646,7 +622,6 @@ footer{
   }
 }
 
-/* Layout responsiveness */
 @media (min-width: 920px){
   .hero{
     grid-template-columns: 1.18fr 0.82fr;
@@ -659,44 +634,45 @@ footer{
 }
 
 /* ===========================
-   MOBILE FIXES (somente o que foi solicitado)
-   - footer bullets com recuo
-   - logo/topo maior + header mais alto
-   - header permanece fixo
+   MOBILE: ajustes pedidos
+   - header mais alto
+   - logo maior e mais à esquerda
+   - botão menor
+   - hero (Atendimento Operacional) mais para cima
    =========================== */
 @media (max-width: 640px){
 
   :root{
-    --header-h: 78px; /* ALTERADO: era 64px */
+    --header-h: 92px;      /* ALTERADO: aumenta a altura do header no mobile */
+    --hero-pad-top: 22px;  /* ALTERADO: sobe o bloco "Atendimento Operacional" no mobile */
   }
 
   header{
-    position: fixed; /* já era fixed; mantido */
-    top: 0;
-    width: 100%;
-    z-index: 9999;
     height: var(--header-h);
-    background: rgba(7, 10, 18, 0.32);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
   }
 
   .nav{
-    padding-inline: 12px; /* ALTERADO */
-    padding-block: 6px;   /* ALTERADO: aumenta área do header */
-    gap: 8px;             /* ALTERADO */
+    padding-inline: 12px;
+    padding-block: 10px;  /* ALTERADO: aumenta “respiro” do retângulo do header */
+    gap: 10px;
+  }
+
+  .logo{
+    margin-right: auto;   /* ALTERADO: garante o logo mais à esquerda */
   }
 
   .logo img{
-    height: 62px;        /* ALTERADO: aumenta logo no topo */
+    height: 72px;         /* ALTERADO: logo maior no mobile */
     width: auto;
-    min-width: 160px;    /* ALTERADO */
+    min-width: 0;         /* ALTERADO: remove “travamento” que empurra/centraliza */
     object-fit: contain;
   }
 
-  /* Footer: bullets não cortam no iPhone */
-  footer ul{
-    padding-left: 20px;  /* ADICIONADO */
+  .nav .btn{
+    padding: 8px 12px;    /* ALTERADO: botão menor */
+    font-size: 0.80rem;   /* ALTERADO */
+    font-weight: 800;     /* ALTERADO */
+    height: 42px;         /* ALTERADO */
   }
 }
 
