@@ -647,15 +647,13 @@ footer{
 }
 
 /* Layout responsiveness */
-@media (min-width: 920px){
+@media (min-width: 1024px){
   .hero{
     grid-template-columns: 1.18fr 0.82fr;
     align-items: center;
+    padding-top: 22px; /* AJUSTE: sobe o bloco (tag + h1 + p) sem colar no topo */
   }
   .hero-card{ justify-self:end; }
-  .hero-content{
-    margin-top: -22px; /* AJUSTE: reduz o espaço acima e alinha com a curva superior */
-  }
 }
 @media (min-width: 860px){
   .footer-grid{ grid-template-columns: 1.25fr .85fr .85fr; }
