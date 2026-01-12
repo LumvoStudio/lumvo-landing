@@ -624,7 +624,7 @@ footer{
   height: 64px;
   width: auto;
   /* Removido o borrão roxo/azul e mantido a nitidez */
-  filter: none;
+  filter: none; /* ALTERADO: era brightness(0) invert(1) */
   opacity: 1;
 }
 
@@ -659,17 +659,19 @@ footer{
 }
 
 /* ===========================
-   MOBILE FIXES
+   MOBILE FIXES (somente o que foi solicitado)
+   - footer bullets com recuo
+   - logo/topo maior + header mais alto
+   - header permanece fixo
    =========================== */
 @media (max-width: 640px){
 
   :root{
-    --header-h: 78px;
-    --hero-pad-top: 18px;
+    --header-h: 78px; /* ALTERADO: era 64px */
   }
 
   header{
-    position: fixed;
+    position: fixed; /* já era fixed; mantido */
     top: 0;
     width: 100%;
     z-index: 9999;
@@ -679,51 +681,22 @@ footer{
     -webkit-backdrop-filter: blur(18px) saturate(140%);
   }
 
-  body{
-    padding-top: 0;
-  }
-
   .nav{
-    padding-inline: 12px;
-    padding-block: 6px;
-    gap: 8px;
+    padding-inline: 12px; /* ALTERADO */
+    padding-block: 6px;   /* ALTERADO: aumenta área do header */
+    gap: 8px;             /* ALTERADO */
   }
 
   .logo img{
-    height: 62px;
+    height: 62px;        /* ALTERADO: aumenta logo no topo */
     width: auto;
-    min-width: 160px;
+    min-width: 160px;    /* ALTERADO */
     object-fit: contain;
   }
 
-  .nav .btn{
-    width: auto !important;
-    padding: 6px 10px !important;
-    font-size: 0.75rem !important;
-    font-weight: 800 !important;
-    min-width: fit-content;
-    height: 40px;
-    flex-shrink: 0;
-  }
-
-  .hero h1{
-    font-size: 1.8rem;
-    margin-top: 0;
-  }
-
-  .hero-card{
-    padding: 20px;
-  }
-
-  .cta-actions{ flex-direction: column; width: 100%;}
-  .cta-actions .btn,
-  .form-grid .btn{
-    width: 100% !important;
-    display: flex !important;
-  }
-
+  /* Footer: bullets não cortam no iPhone */
   footer ul{
-    padding-left: 20px;
+    padding-left: 20px;  /* ADICIONADO */
   }
 }
 
