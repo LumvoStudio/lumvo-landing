@@ -206,7 +206,7 @@ header.scrolled{
 }
 
 main {
-  margin-top: var(--header-h); /* Empurra o site para baixo para não brotar atrás do header */
+  margin-top: var(--header-h) !important; /* Empurra o site para baixo para não brotar atrás do header */
 }
 
 /* Nav spacing */
@@ -314,7 +314,8 @@ p{ color: var(--muted); }
 
 /* HERO */
 .hero{
-  padding: var(--hero-pad-top) 0 var(--hero-pad-bottom);
+  padding-top: 10px !important; /* Reduzimos o espaço interno da primeira seção */
+  padding-bottom: 40px;
   display:grid;
   gap: 34px;
   align-items: center;
@@ -661,32 +662,36 @@ footer{
 
   header{
     position: fixed;
-    top: 0;
+    top: 0 !important;
+    left: 0;
     width: 100%;
     z-index: 9999;
-    height: var(--header-h);
+    height: var(--header-h) !important;
+    background: rgba(7,10,18,0.95); /* Fundo escuro para leitura */
+    backdrop-filter: blur(15px);
   }
 
   body{
-    padding-top: var(--header-h);
+    padding-top: 0 !important;;
   }
 
-  :root{ --header-h: 100px; }
+  :root{ --header-h: 90px; }
 
   .nav {
-    padding-inline: 10px;
-    gap: 5px;
+    padding-inline: 12px;
+    gap: 8px;
+    height: 100%; /* Garante que use a altura do header */
   }
   .logo img{ 
-    height: 62px; 
-    width: auto;
+    height: 62px !important; 
+    width: auto !important;
     min-width: 140px;
     object-fit: contain;
   }
 
   .nav .btn { 
     width: auto !important; 
-    padding: 6px 10px !important; 
+    padding: 8px 14px !important; 
     font-size: 0.75rem !important;
     font-weight: 800 !important;
     min-width: fit-content;
@@ -695,8 +700,9 @@ footer{
   }
 
   .hero h1 {
-    font-size: 1.8rem;
-    margin-top: 40px;
+    font-size: 1.9rem;
+    margin-top: 15px;
+    line-height: 1.2;
   }
 
   .hero-card{
@@ -706,8 +712,7 @@ footer{
   .cta-actions{ flex-direction: column; width: 100%;}
   .cta-actions .btn,
   .form-grid .btn { 
-    width: 100% !important; 
-    display: flex !important;
+    width: 100% !important;
   }
 }
 
