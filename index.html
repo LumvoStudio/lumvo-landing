@@ -177,8 +177,11 @@ header{
   height: var(--header-h);
   display:flex;
   align-items:center;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
 
   background: rgba(7,10,18,.52);
@@ -200,6 +203,10 @@ header::after{
 header.scrolled{
   box-shadow: 0 20px 80px rgba(0,0,0,.55);
   border-bottom-color: rgba(255,255,255,.14);
+}
+
+main {
+  margin-top: var(--header-h); /* Empurra o site para baixo para não brotar atrás do header */
 }
 
 /* Nav spacing */
