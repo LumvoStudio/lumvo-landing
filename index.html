@@ -917,6 +917,18 @@ footer{
                   <input type="text" id="empresa" name="empresa" class="form-control" placeholder="Ex: Clínica Saúde" required>
                 </div>
 
+                <!-- ✅ ADICIONADO: Quantas mensagens por dia (estimativa)? -->
+                <div>
+                  <label for="mensagens_dia">Quantas mensagens por dia (estimativa)?</label>
+                  <input type="text" id="mensagens_dia" name="mensagens_dia" class="form-control" placeholder="Ex: 120 mensagens por dia" required>
+                </div>
+
+                <!-- ✅ ADICIONADO: Quantas agendas / quantos profissionais? -->
+                <div>
+                  <label for="agendas_profissionais">Quantas agendas / quantos profissionais?</label>
+                  <input type="text" id="agendas_profissionais" name="agendas_profissionais" class="form-control" placeholder="Ex: 4 agendas / 3 profissionais" required>
+                </div>
+
                 <div>
                   <label for="whatsapp">WhatsApp com DDD</label>
                   <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="(11) 99999-9999" required>
@@ -1007,10 +1019,16 @@ footer{
 
       const nome = document.getElementById("nome").value.trim();
       const empresa = document.getElementById("empresa").value.trim();
+
+      // ✅ ADICIONADO: ler os 2 novos campos
+      const mensagensDia = document.getElementById("mensagens_dia").value.trim();
+      const agendasProfissionais = document.getElementById("agendas_profissionais").value.trim();
+
       const whatsappRaw = document.getElementById("whatsapp").value.trim();
       const mensagem = document.getElementById("mensagem").value.trim();
 
-      if(!nome || !empresa || !whatsappRaw || !mensagem){
+      // ✅ ADICIONADO: validação incluindo os 2 novos campos
+      if(!nome || !empresa || !mensagensDia || !agendasProfissionais || !whatsappRaw || !mensagem){
         statusDiv.style.color = "#ef4444";
         statusDiv.textContent = "Preencha todos os campos.";
         return;
@@ -1026,7 +1044,16 @@ footer{
       statusDiv.style.color = "var(--brand)";
       statusDiv.textContent = "Abrindo WhatsApp…";
 
-      const textoFinal = `*Novo contato via site*\n\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*WhatsApp:* ${whatsapp}\n*Mensagem:* ${mensagem}`;
+      // ✅ ADICIONADO: incluir os 2 novos campos no texto enviado ao WhatsApp
+      const textoFinal =
+        `*Novo contato via site*\n\n` +
+        `*Nome:* ${nome}\n` +
+        `*Empresa:* ${empresa}\n` +
+        `*Mensagens/dia (estimativa):* ${mensagensDia}\n` +
+        `*Agendas / Profissionais:* ${agendasProfissionais}\n` +
+        `*WhatsApp:* ${whatsapp}\n` +
+        `*Mensagem:* ${mensagem}`;
+
       const url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(textoFinal)}`;
 
       const popup = window.open(url, "_blank", "noopener,noreferrer");
